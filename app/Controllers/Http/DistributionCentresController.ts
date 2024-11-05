@@ -15,7 +15,7 @@ export default class DistributionCentresController {
                 return await DistributionCentre.query().paginate(page, perPage)
             } else {
                 return await DistributionCentre.query()
-            } // Devuelve todos los elementos 
+            } 
 
         }
 

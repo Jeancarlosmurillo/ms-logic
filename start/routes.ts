@@ -28,3 +28,8 @@ import './routes/departaments'
 import './routes/municipalities'
 import './routes/addresses'
 import './routes/distribution_centres'
+
+import "./routes/category" // registro de la ruta de categorias 
+import "./routes/product" // registro de la ruta de productos 
+import "./routes/categoryProducts" // registro de la ruta de categoria de los productos 
+// import "./routes/batch" // registro de la ruta de categoria de los lotes 

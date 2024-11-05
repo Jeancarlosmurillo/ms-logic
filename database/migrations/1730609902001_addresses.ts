@@ -11,9 +11,6 @@ export default class extends BaseSchema {
       table.string('door_number',30).notNullable()
       table.integer('municipality_id').unsigned().references('municipalities.id')
 
-      /**
-       * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
-       */
       table.timestamp('created_at', { useTz: true })
       table.timestamp('updated_at', { useTz: true })
     })

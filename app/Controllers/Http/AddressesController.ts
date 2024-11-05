@@ -16,7 +16,7 @@ export default class AddressesController {
                 return await Address.query().paginate(page, perPage)
             } else {
                 return await Address.query()
-            } // Devuelve todos los elementos 
+            } 
 
         }
 
@@ -24,7 +24,7 @@ export default class AddressesController {
     public async create({ request }: HttpContextContract) {
         const body = request.body();
         const theAddress: Address= await Address.create(body);
-        //await theAddress.load("theater");
+
         return theAddress;
     }
 

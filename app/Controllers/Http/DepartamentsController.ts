@@ -16,7 +16,7 @@ export default class DepartamentsController {
                 return await Departament.query().paginate(page, perPage)
             } else {
                 return await Departament.query()
-            } // Devuelve todos los elementos 
+            } 
 
         }
 

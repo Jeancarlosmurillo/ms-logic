@@ -12,7 +12,7 @@ export default class Municipality extends BaseModel {
   public name_municipality: string
 
   @column()
-  public departament_id: number //pongo el atributo de la clave foranea
+  public departament_id: number //FK
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

@@ -17,7 +17,6 @@ export default class Departament extends BaseModel {
 
   @hasMany(()=>Municipality,{ //tiene una relacion de muchos
 
-    //este es el nombre de la clave foranea
     foreignKey: "departament_id"
   })
   public seats: HasMany<typeof Municipality>

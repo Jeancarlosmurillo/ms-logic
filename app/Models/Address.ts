@@ -16,7 +16,7 @@ export default class Address extends BaseModel {
   public door_number: string
 
   @column()
-  public municipality_id: number
+  public municipality_id: number //FK
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

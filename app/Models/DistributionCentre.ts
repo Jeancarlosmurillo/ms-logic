@@ -12,10 +12,10 @@ export default class DistributionCentre extends BaseModel {
   public phone: string
 
   @column()
-  public municipality_id: number
+  public municipality_id: number //FK
 
   @column()
-  public address_id: number
+  public address_id: number //FK
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

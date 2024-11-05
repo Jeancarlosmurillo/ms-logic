@@ -15,7 +15,7 @@ export default class MunicipalitiesController {
                 return await Municipality.query().paginate(page, perPage)
             } else {
                 return await Municipality.query()
-            } // Devuelve todos los elementos 
+            }
 
         }
 

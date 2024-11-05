@@ -9,9 +9,6 @@ export default class extends BaseSchema {
       table.string('name_municipality',30).notNullable()
       table.integer('departament_id').unsigned().references('departaments.id')
 
-      /**
-       * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
-       */
       table.timestamp('created_at', { useTz: true })
       table.timestamp('updated_at', { useTz: true })
     })
