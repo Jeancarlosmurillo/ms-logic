@@ -39,5 +39,5 @@ export default class CategoriesController {
         const theCategory: Category = await Category.findOrFail(params.id); //buscarlo
         response.status(204);
         return await theCategory.delete(); //el teatro que se encontro, eliminelo
-      }
+    }
 }

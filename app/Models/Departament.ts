@@ -1,19 +1,13 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
-import Route from './Route'
+import Municipality from './Municipality'
 
-export default class Contract extends BaseModel {
+export default class Departament extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
   @column()
-  public description: string
-
-  @column()
-  public date:DateTime
-
-  @column()
-  public customer_id: number
+  public name_departament: string
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
@@ -21,10 +15,9 @@ export default class Contract extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
 
-  @hasMany (()=> Route,{
-    // nombre de la clave foranea
-    foreignKey:'contract_id'
-  })
+  @hasMany(()=>Municipality,{ //tiene una relacion de muchos
 
-  public route: HasMany<typeof Route>
+    foreignKey: "departament_id"
+  })
+  public seats: HasMany<typeof Municipality>
 }

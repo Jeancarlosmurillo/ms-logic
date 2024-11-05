@@ -7,6 +7,7 @@ export default class ContractsController {
         public async find({ request, params }: HttpContextContract) {
             if (params.id) {
                 let theContract: Contract = await Contract.findOrFail(params.id)
+                await theContract.load("route")
                 return theContract; // Visualizar un solo elemento 
             } else {
                 const data = request.all()

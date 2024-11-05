@@ -24,6 +24,10 @@ Route.get('/', async () => {
   return { hello: 'world' }
 })
 
+import './routes/departaments'
+import './routes/municipalities'
+import './routes/addresses'
+import './routes/distribution_centres'
 
 import "./routes/category" //registro de la ruta de categorias 
 import "./routes/product" //registro de la ruta de productos 
@@ -31,3 +35,5 @@ import "./routes/categoryProducts" //registro de la ruta de categoria de los pro
 // import "./routes/batch" //registro de la ruta de categoria de los lotes 
 import "./routes/contract" //registro de la ruta de contratos
 import "./routes/vehicle" //registro de la ruta de vehiculos
+import "./routes/route"
+

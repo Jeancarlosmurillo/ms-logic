@@ -1,5 +1,6 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
+import Route from './Route'
 
 export default class Vehicle extends BaseModel {
   @column({ isPrimary: true })
@@ -25,4 +26,11 @@ export default class Vehicle extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
+
+  @hasMany (()=>Route,{
+    // nombre de la clave foranea
+    foreignKey:'vehicle_id'
+  })
+
+  public route: HasMany<typeof Route>
 }

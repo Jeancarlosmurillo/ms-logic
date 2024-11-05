@@ -5,6 +5,7 @@ export default class VehiclesController {
     public async find({ request, params }: HttpContextContract) {
         if (params.id) {
             let thevehicle: Vehicle = await Vehicle.findOrFail(params.id)
+            await thevehicle.load('route')
             return thevehicle; //Visualizar un solo elemento 
         } else {
             const data = request.all()
