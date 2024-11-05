@@ -25,7 +25,9 @@ Route.get('/', async () => {
 })
 
 
-import "./routes/category" // registro de la ruta de categorias 
-import "./routes/product" // registro de la ruta de productos 
-import "./routes/categoryProducts" // registro de la ruta de categoria de los productos 
-// import "./routes/batch" // registro de la ruta de categoria de los lotes 
+import "./routes/category" //registro de la ruta de categorias 
+import "./routes/product" //registro de la ruta de productos 
+import "./routes/categoryProducts" //registro de la ruta de categoria de los productos 
+// import "./routes/batch" //registro de la ruta de categoria de los lotes 
+import "./routes/contract" //registro de la ruta de contratos
+import "./routes/vehicle" //registro de la ruta de vehiculos
