@@ -2,6 +2,7 @@ import { DateTime } from 'luxon'
 import { BaseModel, BelongsTo, belongsTo, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
 import Departament from './Departament'
 import Address from './Address'
+import Operation from './Operation'
 
 
 export default class Municipality extends BaseModel {
@@ -31,7 +32,14 @@ export default class Municipality extends BaseModel {
     //este es el nombre de la clave foranea
     foreignKey: "municipality_id"
   })
-  public seats: HasMany<typeof Address>
+  public address: HasMany<typeof Address>
+
+  @hasMany(()=>Operation,{ //tiene una relacion de muchos
+
+    //este es el nombre de la clave foranea
+    foreignKey: "municipality_id"
+  })
+  public operation: HasMany<typeof Operation>
 }
 
 

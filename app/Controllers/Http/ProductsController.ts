@@ -40,5 +40,5 @@ export default class ProductsController {
         const theProduct: Product = await Product.findOrFail(params.id); //buscarlo
         response.status(204);
         return await theProduct.delete(); //el teatro que se encontro, eliminelo
-      }
+    }
 }

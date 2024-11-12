@@ -1,17 +1,17 @@
 import { DateTime } from 'luxon'
 import { BaseModel, BelongsTo, belongsTo, column } from '@ioc:Adonis/Lucid/Orm'
-import Vehicle from './Vehicle'
 import Municipality from './Municipality'
+import Vehicle from './Vehicle'
 
 export default class Operation extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
   @column()
-  public vehicle_id: number 
+  public municipality_id: number //FK
 
   @column()
-  public municipality_id: number
+  public vehicle_id: number //FK
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
@@ -19,13 +19,17 @@ export default class Operation extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
 
-  @belongsTo(() => Vehicle, {
-    foreignKey: "vehicle_id",
+  @belongsTo(()=> Municipality,{
+    //Este es el nombre de la clave foranea 
+    foreignKey: 'municipality_id'
   })
-  public vehicle: BelongsTo<typeof Vehicle>;
+  public municipality :BelongsTo<typeof Municipality>
 
-  @belongsTo(() => Municipality, {
-    foreignKey: "municipality_id",
+  @belongsTo(()=> Vehicle,{
+    //Este es el nombre de la clave foranea 
+    foreignKey: 'vehicle_id'
   })
-  public municipality: BelongsTo<typeof Municipality>;
+  public vehicle :BelongsTo<typeof Vehicle>
+
 }
+

@@ -41,5 +41,5 @@ export default class Vehicle extends BaseModel {
   })
 
   public operation: HasMany<typeof Operation>
-
 }
+

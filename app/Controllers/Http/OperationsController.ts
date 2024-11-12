@@ -2,40 +2,43 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Operation from 'App/Models/Operation';
 
 export default class OperationsController {
-
     public async find({ request, params }: HttpContextContract) {
         if (params.id) {
-          let theOperation: Operation = await Operation.findOrFail(params.id); 
-          return theOperation;
+            let theoperation:Operation = await Operation.findOrFail(params.id)
+            await theoperation.load('municipality')
+            await theoperation.load('vehicle')
+            return theoperation; // Visualizar un solo elemento 
         } else {
-          const data = request.all();
-          if ("page" in data && "per_page" in data) {
-            const page = request.input("page", 1);
-            const perPage = request.input("per_page", 20);  
-            return await Operation.query().paginate(page, perPage);  //cuando hace la consulta se hace en ese rango de pagina
-          } else {
-            return await Operation.query(); //es para que espere a la base de datos
-          }
+            const data = request.all()
+            if ("page" in data && "per_page" in data) {
+                const page = request.input('page', 1); // Paginas 
+                const perPage = request.input("per_page", 20); // Lista los primeros 20
+                return await Operation.query().preload('vehicle').preload('municipality').paginate(page, perPage)
+            } else {
+                return await Operation.query().preload('vehicle').preload('municipality')
+            } // Devuelve todos los elementos 
+
         }
-      }
-      public async create({ request }: HttpContextContract) {
-      //  await request.validate(OperationValidator)
+
+    }
+    public async create({ request }: HttpContextContract) {
         const body = request.body();
-        const theOperation: Operation = await Operation.create(body);
-        return theOperation;
-      }
-    
-      public async update({ params, request }: HttpContextContract) {   
-        const theOperation: Operation = await Operation.findOrFail(params.id);  //busque el teatro con el identificador
-        const body = request.body(); //leer lo que viene en la carta
-        theOperation.vehicle_id = body.vehicle_id;  //de lo que está en la base de datos, actualice con lo que viene dentro del body
-        theOperation.municipality_id= body.municipality_id;
-        return await theOperation.save(); //se confirma a la base de datos el cambio
-      }
-    
-      public async delete({ params, response }: HttpContextContract) {  //
-        const theOperation: Operation = await Operation.findOrFail(params.id); //buscarlo
-        response.status(204);
-        return await theOperation.delete(); //el teatro que se encontro, eliminelo
-      }
+        const theOpeOperation:Operation = await Operation.create(body);
+        return theOpeOperation;
+    }
+
+    public async update({ params, request }: HttpContextContract) {
+        const theOpeOperation:Operation = await Operation.findOrFail(params.id);
+        const body = request.body();
+        theOpeOperation.municipality_id = body.municipality_id;
+        theOpeOperation.vehicle_id = body.vehicle_id;
+        return await theOpeOperation.save();
+    }
+
+    public async delete({ params, response }: HttpContextContract) {
+        const theOpeOperation:Operation = await Operation.findOrFail(params.id);
+            response.status(204);
+            return await theOpeOperation.delete();
+    }
 }
+
