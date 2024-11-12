@@ -36,4 +36,10 @@ import "./routes/categoryProducts" //registro de la ruta de categoria de los pro
 import "./routes/contract" //registro de la ruta de contratos
 import "./routes/vehicle" //registro de la ruta de vehiculos
 import "./routes/route"
+import "./routes/operations"
+import "./routes/restaurants"
+import "./routes/hotels"
+import "./routes/travel_expenses"
+import "./routes/users"
+import "./routes/administrators"
 
