@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, BelongsTo, belongsTo, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
 import CategoryProduct from './CategoryProduct'
+import Lot from './Lot'
 
 export default class Product extends BaseModel {
   @column({ isPrimary: true })
@@ -28,5 +29,10 @@ export default class Product extends BaseModel {
     foreignKey: "product_id", //cual es la clave foranea que permite esa relacion
   })
   public categoryProduct: HasMany<typeof CategoryProduct>;
+
+  @belongsTo(() => Lot, {
+    foreignKey: "lot_id",
+  })
+  public lot: BelongsTo<typeof Lot>;
 
 }

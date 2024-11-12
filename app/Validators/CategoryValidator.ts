@@ -19,7 +19,9 @@ export default class CategoryValidator {
       rules.minLength(2),
       rules.maxLength(100),
     ]),
-   // category_id: schema.number()
+   category_id: schema.number.nullable([
+    rules.exists({ table: "categories", column: "id" }),
+   ])
   })
 
   

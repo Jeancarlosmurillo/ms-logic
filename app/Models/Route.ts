@@ -2,6 +2,7 @@ import { DateTime } from 'luxon'
 import { BaseModel, BelongsTo, belongsTo, column } from '@ioc:Adonis/Lucid/Orm'
 import Contract from './Contract'
 import Vehicle from './Vehicle'
+import Lot from './Lot'
 
 export default class Route extends BaseModel {
   @column({ isPrimary: true })
@@ -41,8 +42,20 @@ export default class Route extends BaseModel {
   public contract : BelongsTo<typeof Contract>
 
   @belongsTo(()=> Vehicle, { 
-    foreignKey:"vehicle_id" //vehicle_id es llave foranea de Contract
+    foreignKey:"vehicle_id" 
   })
 
   public vehicle : BelongsTo<typeof Vehicle>
+
+  @belongsTo(()=> Lot, { 
+    foreignKey:"lot_id" 
+  })
+  public lot : BelongsTo<typeof Lot>
+
+ /* @belongsTo(()=> Order, { 
+    foreignKey:"order_id" 
+  })
+  public order : BelongsTo<typeof Order> */
+
+
 }
