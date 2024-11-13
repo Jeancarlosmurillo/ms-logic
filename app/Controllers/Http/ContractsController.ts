@@ -34,6 +34,8 @@ export default class ContractsController {
             theContract.description = body.description;
             theContract.date = body.date;
             theContract.customer_id = body.customer_id;
+            theContract.order_id = body.order_id;
+            theContract.stretch_id = body.stretch_id;
             return await theContract.save();
         }
     

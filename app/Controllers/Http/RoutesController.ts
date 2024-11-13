@@ -33,11 +33,6 @@ export default class RoutesController {
     public async update({ params, request }: HttpContextContract) {
         const theRoute: Route = await Route.findOrFail(params.id);
         const body = request.body();
-        theRoute.route_start = body.route_start;
-        theRoute.route_end = body.route_end;
-        theRoute.start_date = body.start_date;
-        theRoute.end_date = body.end_date;
-        theRoute.state = body.state;
         theRoute.contract_id = body.contract_id;
         theRoute.vehicle_id = body.vehicle_id;
         return await theRoute.save();

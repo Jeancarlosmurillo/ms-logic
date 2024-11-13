@@ -31,9 +31,8 @@ export default class VehiclesController {
         const body = request.body();
         thevehicle.plate = body.plate;
         thevehicle.type = body.type;
-        thevehicle.capacitity = body.capacitity;
+        thevehicle.capacitity_kg = body.capacitity_kg;
         thevehicle.state = body.state;
-        thevehicle.current_location = body.current_location;
         return await thevehicle.save();
     }
 

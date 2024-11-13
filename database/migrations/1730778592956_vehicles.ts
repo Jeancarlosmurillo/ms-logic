@@ -8,9 +8,8 @@ export default class extends BaseSchema {
       table.increments('id')
       table.string('plate')
       table.string('type')
-      table.integer('capacitity')
+      table.integer('capacitity_kg')
       table.string('state')
-      table.string('current_location')
 
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL

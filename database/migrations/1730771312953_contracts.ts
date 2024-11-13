@@ -9,6 +9,9 @@ export default class extends BaseSchema {
       table.string('description')
       table.dateTime('date')
       table.integer('customer_id')
+      table.integer('order_id')
+      table.integer('stretch_id')
+      
 
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL

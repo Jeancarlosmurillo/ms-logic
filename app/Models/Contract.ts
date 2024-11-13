@@ -15,6 +15,12 @@ export default class Contract extends BaseModel {
   @column()
   public customer_id: number
 
+  @column()
+  public order_id: number
+
+  @column()
+  public stretch_id: number
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 
