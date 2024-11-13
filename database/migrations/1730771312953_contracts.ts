@@ -8,9 +8,7 @@ export default class extends BaseSchema {
       table.increments('id')
       table.string('description')
       table.dateTime('date')
-      table.integer('customer_id')
-      table.integer('order_id')
-      table.integer('stretch_id')
+      table.integer('customer_id').unsigned().references("customers.id").onDelete("CASCADE")
       
 
       /**

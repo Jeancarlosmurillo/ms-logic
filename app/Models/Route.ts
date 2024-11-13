@@ -3,6 +3,7 @@ import { BaseModel, BelongsTo, belongsTo, column, HasMany, hasMany } from '@ioc:
 import Contract from './Contract'
 import Vehicle from './Vehicle'
 import Lot from './Lot'
+import Address from './Address'
 
 export default class Route extends BaseModel {
   @column({ isPrimary: true })
@@ -32,10 +33,10 @@ export default class Route extends BaseModel {
 
   public vehicle : BelongsTo<typeof Vehicle>
 
-  @belongsTo(()=> Lot, { 
-    foreignKey:"lot_id" 
+  @hasMany(()=> Lot, { 
+    foreignKey:"route_id" 
   })
-  public lot : BelongsTo<typeof Lot>
+  public lot : HasMany<typeof Lot>
 
  /* @belongsTo(()=> Order, { 
     foreignKey:"order_id" 
@@ -44,12 +45,12 @@ export default class Route extends BaseModel {
 
 
 
-  @hasMany (()=> Route,{
+  @hasMany (()=> Address,{
     // nombre de la clave foranea
     foreignKey:'address_id'
   })
 
-  public route: HasMany<typeof Route>
+  public address: HasMany<typeof Address>
 
   
 }

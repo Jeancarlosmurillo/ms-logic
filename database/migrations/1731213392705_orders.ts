@@ -10,7 +10,8 @@ export default class extends BaseSchema {
       table.date("date_order")
       table.integer("address_id").unsigned().references("addresses.id").onDelete("CASCADE")
       table.integer("route_id").unsigned().references("routes.id").onDelete("CASCADE")
-      table.integer("lot_id")
+      table.integer("lot_id").unsigned().references("lots.id").onDelete("CASCADE")
+      table.integer('contract_id').unsigned().references("contracts.id").onDelete("CASCADE")
 
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL

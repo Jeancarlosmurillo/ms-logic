@@ -8,6 +8,7 @@ export default class extends BaseSchema {
       table.increments('id')
       table.integer('weight')
       table.integer('quantity_kg')
+      table.integer('route_id').unsigned().references("routes.id").onDelete("CASCADE")
 
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL

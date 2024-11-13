@@ -1,13 +1,15 @@
  import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Order from 'App/Models/Order';
+import OperationValidator from 'App/Validators/OperationValidator';
+import OrderValidator from 'App/Validators/OrderValidator';
 
 export default class OrdersController {
     public async find({ request, params }: HttpContextContract) {
         if (params.id) {
             let theOrder: Order = await Order.findOrFail(params.id)
-            //await theOrder.load("");
-            //await theOrder.load("");
-            //await theOrder.load("")
+            await theOrder.load('address');
+            await theOrder.load('lot');
+            await theOrder.load("contract");
             return theOrder; //Visualizar un solo elemento 
         } else {
             const data = request.all()
@@ -23,15 +25,17 @@ export default class OrdersController {
 
     }
     public async create({ request }: HttpContextContract) {
+        await request.validate(OperationValidator) //Validador
         const body = request.body();
         const theOrder: Order = await Order.create(body);
-        //await theOrder.load("")
-        //await theOrder.load("")
-        //await theOrder.load("")
+        await theOrder.load('address');
+        await theOrder.load('lot');
+        await theOrder.load("contract");
         return theOrder;
     }
 
     public async update({ params, request }: HttpContextContract) {
+        await request.validate(OrderValidator) //Validador
         const theOrder: Order = await Order.findOrFail(params.id);
         const body = request.body();
         theOrder.type = body.type;

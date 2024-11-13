@@ -1,5 +1,6 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Sure from 'App/Models/Sure';
+import SureValidator from 'App/Validators/SureValidator';
 
 export default class SuresController {
     public async find({ request, params }: HttpContextContract) {
@@ -21,6 +22,7 @@ export default class SuresController {
 
     }
     public async create({ request }: HttpContextContract) {
+        await request.validate(SureValidator) //Validador
         const body = request.body();
         const theSure: Sure = await Sure.create(body);
         await theSure.load("vehicle")
@@ -28,6 +30,7 @@ export default class SuresController {
     }
 
     public async update({ params, request }: HttpContextContract) {
+        await request.validate(SureValidator) //Validador
         const theSure: Sure = await Sure.findOrFail(params.id);
         const body = request.body();
         theSure.vehicle_id = body.vehicle_id;
