@@ -39,6 +39,8 @@ import "./routes/customer" //registro de la ruta de los clientes
 
 import "./routes/contract" //registro de la ruta de contratos
 import "./routes/vehicle" //registro de la ruta de vehiculos
+import "./routes/sure"
+import "./routes/order"
 import "./routes/route"
 import "./routes/operations"
 import "./routes/restaurants"
