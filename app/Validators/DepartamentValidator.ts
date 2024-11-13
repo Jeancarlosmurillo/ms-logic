@@ -1,16 +1,11 @@
 import { schema, CustomMessages,rules  } from '@ioc:Adonis/Core/Validator'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
-export default class CategoryProductValidator {
+export default class DepartamentValidator {
   constructor(protected ctx: HttpContextContract) {}
 
   public schema = schema.create({
-    category_id: schema.number([
-      rules.exists({ table: "categories", column: "id" }),
-     ]),
-    product_id: schema.number([
-      rules.exists({ table: "products", column: "id" }),
-     ]),
+    name_departament: schema.string([ rules.alpha()]),
   })
 
   public messages: CustomMessages = {}
