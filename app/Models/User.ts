@@ -2,6 +2,7 @@ import { DateTime } from 'luxon'
 import { BaseModel, column, HasOne, hasOne } from '@ioc:Adonis/Lucid/Orm'
 import Administrator from './Administrator'
 import Driver from './Driver'
+import Owner from './Owner'
 
 export default class User extends BaseModel {
   @column({ isPrimary: true })
@@ -40,5 +41,10 @@ export default class User extends BaseModel {
 
   public driver: HasOne<typeof Driver>
 
+  @hasOne(() => Owner,{
+    foreignKey:"user_id"
+  })
+
+  public owner: HasOne<typeof Owner>
 
 }

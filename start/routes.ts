@@ -51,4 +51,6 @@ import "./routes/hotels"
 import "./routes/travel_expenses"
 import "./routes/users"
 import "./routes/administrators"
+import "./routes/owner"
+import "./routes/ownerVehicle"
 

@@ -1,40 +1,17 @@
-import { schema, CustomMessages } from '@ioc:Adonis/Core/Validator'
+import { schema, CustomMessages, rules } from '@ioc:Adonis/Core/Validator'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 export default class OwnerValidator {
   constructor(protected ctx: HttpContextContract) {}
+  public schema = schema.create({
+    user_id: schema.number([
+      rules.exists({ table: 'users', column: 'id' }), // Verifica que el `user_id` exista en la tabla `users`
+      rules.unsigned(), // Asegura que el `user_id` sea un número positivo
+    ]),
+  })
 
-  /*
-   * Define schema to validate the "shape", "type", "formatting" and "integrity" of data.
-   *
-   * For example:
-   * 1. The username must be of data type string. But then also, it should
-   *    not contain special characters or numbers.
-   *    ```
-   *     schema.string([ rules.alpha() ])
-   *    ```
-   *
-   * 2. The email must be of data type string, formatted as a valid
-   *    email. But also, not used by any other user.
-   *    ```
-   *     schema.string([
-   *       rules.email(),
-   *       rules.unique({ table: 'users', column: 'email' }),
-   *     ])
-   *    ```
-   */
-  public schema = schema.create({})
-
-  /**
-   * Custom messages for validation failures. You can make use of dot notation `(.)`
-   * for targeting nested fields and array expressions `(*)` for targeting all
-   * children of an array. For example:
-   *
-   * {
-   *   'profile.username.required': 'Username is required',
-   *   'scores.*.number': 'Define scores as valid numbers'
-   * }
-   *
-   */
-  public messages: CustomMessages = {}
+  public messages:CustomMessages = {
+    'user_id.required': 'El ID del usuario es obligatorio',
+    'user_id.exists': 'El usuario especificado no existe',
+    'user_id.unsigned': 'El ID del usuario debe ser un número positivo',}
 }
