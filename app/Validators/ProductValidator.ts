@@ -4,25 +4,6 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 export default class ProductValidator {
   constructor(protected ctx: HttpContextContract) {}
 
-  /*
-   * Define schema to validate the "shape", "type", "formatting" and "integrity" of data.
-   *
-   * For example:
-   * 1. The username must be of data type string. But then also, it should
-   *    not contain special characters or numbers.
-   *    ```
-   *     schema.string([ rules.alpha() ])
-   *    ```
-   *
-   * 2. The email must be of data type string, formatted as a valid
-   *    email. But also, not used by any other user.
-   *    ```
-   *     schema.string([
-   *       rules.email(),
-   *       rules.unique({ table: 'users', column: 'email' }),
-   *     ])
-   *    ```
-   */
   public schema = schema.create({
     name: schema.string([
       rules.alphaNum({
@@ -46,11 +27,18 @@ export default class ProductValidator {
     ])
   })
 
-  public messages: CustomMessages = {}
+  public messages: CustomMessages = {
+    'name.required': 'El nombre del producto es obligatorio.',
+    'name.alphaNum': 'El nombre solo puede contener letras, números, espacios, guiones bajos y guiones.',
+    'name.minLength': 'El nombre debe tener al menos 2 caracteres.',
+    'name.maxLength': 'El nombre no puede exceder los 100 caracteres.',
+    'description.required': 'La descripción del producto es obligatoria.',
+    'description.alphaNum': 'La descripción solo puede contener letras, números, espacios, guiones bajos y guiones.',
+    'description.minLength': 'La descripción debe tener al menos 2 caracteres.',
+    'description.maxLength': 'La descripción no puede exceder los 100 caracteres.',
+    'price.required': 'El precio es obligatorio.',
+    'price.range': 'El precio debe estar entre 1 y 1,000,000.',
+    'cuantity.required': 'La cantidad es obligatoria.',
+    'cuantity.range': 'La cantidad debe estar entre 1 y 1,000.'
+  }
 }
-
-
-
-
- 
- 

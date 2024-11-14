@@ -1,5 +1,6 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Municipality from 'App/Models/Municipality';
+import MunicipalityValidator from 'App/Validators/MunicipalityValidator';
 
 export default class MunicipalitiesController {
     public async find({ request, params }: HttpContextContract) {
@@ -21,7 +22,7 @@ export default class MunicipalitiesController {
 
     }
     public async create({ request }: HttpContextContract) {
-        const body = request.body();
+        const body = await request.validate(MunicipalityValidator);
         const theMunicipality: Municipality= await Municipality.create(body);
         await theMunicipality.load("departament");
         return theMunicipality;

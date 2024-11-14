@@ -1,6 +1,7 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 import Contract from "App/Models/Contract";
+import ContractValidator from "App/Validators/ContractsValidator";
 
 export default class ContractsController {
 
@@ -23,7 +24,7 @@ export default class ContractsController {
     
         }
         public async create({ request }: HttpContextContract) {
-            const body = request.body();
+            const body = await request.validate(ContractValidator);
             const theContract: Contract = await Contract.create(body);
             return theContract;
         }

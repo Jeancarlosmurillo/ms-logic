@@ -1,5 +1,6 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Hotel from 'App/Models/Hotel';
+import HotelValidator from 'App/Validators/HotelValidator';
 
 export default class HotelsController {
     public async find({ request, params }: HttpContextContract) {
@@ -21,7 +22,7 @@ export default class HotelsController {
     
     }
     public async create({ request }: HttpContextContract) {
-        const body = request.body();
+        const body = await request.validate(HotelValidator);
         const theHotel:Hotel = await Hotel.create(body);
         return theHotel;
     }

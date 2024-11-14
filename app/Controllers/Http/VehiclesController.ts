@@ -1,5 +1,6 @@
  import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Vehicle from 'App/Models/Vehicle';
+//import VehicleValidator from 'App/Validators/VehiclesValidator';
 
 export default class VehiclesController {
     public async find({ request, params }: HttpContextContract) {
@@ -22,6 +23,7 @@ export default class VehiclesController {
     }
     public async create({ request }: HttpContextContract) {
         const body = request.body();
+        //const body = await request.validate(VehicleValidator);
         const thevehicle: Vehicle = await Vehicle.create(body);
         return thevehicle;
     }

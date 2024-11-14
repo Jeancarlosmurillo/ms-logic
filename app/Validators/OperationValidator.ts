@@ -1,4 +1,4 @@
-import { schema, CustomMessages,rules  } from '@ioc:Adonis/Core/Validator'
+import { schema, CustomMessages, rules } from '@ioc:Adonis/Core/Validator'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 export default class OperationValidator {
@@ -6,13 +6,17 @@ export default class OperationValidator {
 
   public schema = schema.create({
     municipality_id: schema.number([
-        rules.unsigned() // Asegura que sea un número positivo (clave foránea)
-      ]),
-      vehicle_id:schema.number([
-        rules.unsigned() // Asegura que sea un número positivo (clave foránea)
-      ]),
-
+      rules.unsigned()
+    ]),
+    vehicle_id: schema.number([
+      rules.unsigned()
+    ])
   })
 
-  public messages: CustomMessages = {}
+  public messages: CustomMessages = {
+    'municipality_id.required': 'El ID del municipio es obligatorio.',
+    'municipality_id.unsigned': 'El ID del municipio debe ser un número positivo.',
+    'vehicle_id.required': 'El ID del vehículo es obligatorio.',
+    'vehicle_id.unsigned': 'El ID del vehículo debe ser un número positivo.'
+  }
 }

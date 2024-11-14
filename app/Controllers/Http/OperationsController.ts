@@ -1,5 +1,6 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Operation from 'App/Models/Operation';
+import OperationValidator from 'App/Validators/OperationValidator';
 
 export default class OperationsController {
     public async find({ request, params }: HttpContextContract) {
@@ -22,7 +23,7 @@ export default class OperationsController {
 
     }
     public async create({ request }: HttpContextContract) {
-        const body = request.body();
+        const body = await request.validate(OperationValidator);
         const theOpeOperation:Operation = await Operation.create(body);
         return theOpeOperation;
     }

@@ -1,5 +1,6 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Lot from 'App/Models/Lot';
+import LotValidator from 'App/Validators/LotValidator';
 
 export default class LotsController {
 
@@ -19,8 +20,7 @@ export default class LotsController {
         }
       }
       public async create({ request }: HttpContextContract) {
-      //  await request.validate(LotValidator)
-        const body = request.body();
+        const body= await request.validate(LotValidator);
         const theLot: Lot = await Lot.create(body);
         return theLot;
       }

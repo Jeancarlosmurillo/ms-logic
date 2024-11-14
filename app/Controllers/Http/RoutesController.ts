@@ -1,5 +1,7 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Route from 'App/Models/Route';
+import RoutesValidator from 'App/Validators/RoutesValidator';
+
 
 export default class RoutesController {
     
@@ -23,7 +25,7 @@ export default class RoutesController {
 
     }
     public async create({ request }: HttpContextContract) {
-        const body = request.body();
+        const body = await request.validate(RoutesValidator);
         const theRoute: Route = await Route.create(body);
         await theRoute.load("contract")
         await theRoute.load("vehicle")

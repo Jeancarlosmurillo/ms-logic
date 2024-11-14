@@ -1,5 +1,6 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import User from 'App/Models/User';
+import UserValidator from 'App/Validators/UserValidator';
 
 export default class UsersController {
     public async find({ request, params }: HttpContextContract) {
@@ -21,7 +22,7 @@ export default class UsersController {
 
     }
     public async create({ request }: HttpContextContract) {
-        const body = request.body();
+        const body = await request.validate(UserValidator);
         const theUser: User = await User.create(body);
         return theUser;
     }
