@@ -26,7 +26,7 @@ export default class SureValidator {
     insurance_company: schema.string({}, [
       rules.maxLength(100), // Limita la longitud del nombre de la compañía aseguradora
     ]),
-    payment_status: schema.enum(['paid', 'unpaid', 'pending']), // Estado de pago permitido
+    payment_status: schema.enum(['pagado', 'no pagado', 'pendiente']), // Estado de pago permitido
   })
 
   public messages: CustomMessages = {
@@ -46,5 +46,5 @@ export default class SureValidator {
     'insurance_company.required': 'La compañía aseguradora es obligatoria',
     'insurance_company.maxLength': 'El nombre de la compañía aseguradora no puede tener más de 100 caracteres',
     'payment_status.required': 'El estado de pago es obligatorio',
-    'payment_status.enum': 'El estado de pago debe ser uno de los siguientes: paid, unpaid, pending',}
+    'payment_status.enum': 'El estado de pago debe ser uno de los siguientes: pagado, no pagado, pendiente'}
 }
