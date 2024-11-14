@@ -3,6 +3,7 @@ import { BaseModel, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
 import Route from './Route'
 import Operation from './Operation'
 import Sure from './Sure'
+import VehiclesDriver from './VehiclesDriver'
 
 export default class Vehicle extends BaseModel {
   @column({ isPrimary: true })
@@ -47,5 +48,14 @@ export default class Vehicle extends BaseModel {
   })
 
   public operation: HasMany<typeof Operation>
+
+  @hasMany (()=> VehiclesDriver,{
+    // nombre de la clave foranea
+    foreignKey:'vehicle_id'
+  })
+
+  public vehiclesdriver: HasMany<typeof VehiclesDriver>
+
+  
 }
 
