@@ -19,6 +19,9 @@ export default class Product extends BaseModel {
   @column()
   public cuantity: number 
 
+  @column()
+  public lot_id: number
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 

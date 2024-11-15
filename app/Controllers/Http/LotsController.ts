@@ -6,7 +6,10 @@ export default class LotsController {
 
     public async find({ request, params }: HttpContextContract) {
         if (params.id) {
-          let theLot: Lot = await Lot.findOrFail(params.id); 
+          let theLot: Lot = await Lot.findOrFail(params.id);
+          await theLot.load('route')
+          await theLot.load('products') 
+          await theLot.load('order')
           return theLot;
         } else {
           const data = request.all();
@@ -22,6 +25,7 @@ export default class LotsController {
       public async create({ request }: HttpContextContract) {
         const body= await request.validate(LotValidator);
         const theLot: Lot = await Lot.create(body);
+        await theLot.load('route')
         return theLot;
       }
     

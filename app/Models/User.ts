@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column, HasOne, hasOne } from '@ioc:Adonis/Lucid/Orm'
 import Administrator from './Administrator'
+import Driver from './Driver'
 
 export default class User extends BaseModel {
   @column({ isPrimary: true })
@@ -21,6 +22,9 @@ export default class User extends BaseModel {
   @column()
   public rol: string
 
+  @column()
+  public password: string
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 
@@ -32,6 +36,12 @@ export default class User extends BaseModel {
   })
 
   public administrator: HasOne<typeof Administrator>
+
+  @hasOne(() => Driver,{
+    foreignKey:"user_id"
+  })
+
+  public driver: HasOne<typeof Driver>
 
 
 }

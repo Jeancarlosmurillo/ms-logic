@@ -1,27 +1,13 @@
 import { DateTime } from 'luxon'
-import { BaseModel, BelongsTo, belongsTo, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, BelongsTo, belongsTo, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
 import Contract from './Contract'
 import Vehicle from './Vehicle'
 import Lot from './Lot'
+import Address from './Address'
 
 export default class Route extends BaseModel {
   @column({ isPrimary: true })
   public id: number
-
-  @column()
-  public route_start: string
-
-  @column()
-  public route_end: string
-
-  @column()
-  public start_date: DateTime
-
-  @column()
-  public end_date: DateTime
-
-  @column()
-  public state: string
 
   @column()
   public contract_id: number  
@@ -47,10 +33,10 @@ export default class Route extends BaseModel {
 
   public vehicle : BelongsTo<typeof Vehicle>
 
-  @belongsTo(()=> Lot, { 
-    foreignKey:"lot_id" 
+  @hasMany(()=> Lot, { 
+    foreignKey:"route_id" 
   })
-  public lot : BelongsTo<typeof Lot>
+  public lot : HasMany<typeof Lot>
 
  /* @belongsTo(()=> Order, { 
     foreignKey:"order_id" 
@@ -58,4 +44,13 @@ export default class Route extends BaseModel {
   public order : BelongsTo<typeof Order> */
 
 
+
+  @hasMany (()=> Address,{
+    // nombre de la clave foranea
+    foreignKey:'address_id'
+  })
+
+  public address: HasMany<typeof Address>
+
+  
 }

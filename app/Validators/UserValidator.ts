@@ -4,64 +4,51 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 export default class UserValidator {
   constructor(protected ctx: HttpContextContract) {}
 
-  /*
-   * Define schema to validate the "shape", "type", "formatting" and "integrity" of data.
-   *
-   * For example:
-   * 1. The username must be of data type string. But then also, it should
-   *    not contain special characters or numbers.
-   *    
-   *     schema.string([ rules.alpha() ])
-   *    
-   *
-   * 2. The email must be of data type string, formatted as a valid
-   *    email. But also, not used by any other user.
-   *       
-   *     schema.string([
-   *       rules.email(),
-   *       rules.unique({ table: 'users', column: 'email' }),
-   *     ])
-   *    
-   */
   public schema = schema.create({
-      user_id: schema.number.optional([
-        rules.unique({
-          table: "users",
-          column: "id",
-          where: { id: this.ctx.request.input("id") },
-        }),
-      ]),
-    name: schema.string([ rules.alpha()]),
-    last_name: schema.string([ rules.alpha()]),
-    email: schema.string([
-        rules.email(),
-        rules.unique({ table: 'users', column: 'email' })
-      ]),
-    phone:schema.string([
-        rules.regex(/^\d+$/)  // Solo permite números del 0 al 9
-      ])
-
-    // rol: schema.string(),
-            
+    name: schema.string({}, [
+      rules.alpha({ allow: ['space'] }), // Permite solo letras y espacios
+      rules.maxLength(50) // Limita el nombre a 50 caracteres
+    ]),
+    last_name: schema.string({}, [
+      rules.alpha({ allow: ['space'] }), // Permite solo letras y espacios
+      rules.maxLength(50) // Limita el apellido a 50 caracteres
+    ]),
+    email: schema.string({}, [
+      rules.email(), // Verifica que el formato sea un correo electrónico
+      rules.maxLength(100),
+      rules.unique({ table: 'users', column: 'email' }) // Asegura que el correo sea único
+    ]),
+    phone: schema.string({}, [
+      rules.regex(/^\d+$/), // Permite solo números
+      rules.minLength(8), // Mínimo de 8 dígitos
+      rules.maxLength(15) // Máximo de 15 dígitos
+    ]),
+    rol: schema.enum(['admin', 'user', 'driver','person','customer','owner'] as const), // Enumera los roles permitidos
+    password: schema.string({}, [
+      rules.minLength(8), // Mínimo de 8 caracteres para la contraseña
+      rules.maxLength(50) // Máximo de 50 caracteres
+    ])
   })
 
-  /**
-   * Custom messages for validation failures. You can make use of dot notation (.)
-   * for targeting nested fields and array expressions (*) for targeting all
-   * children of an array. For example:
-   *
-   * {
-   *   'profile.username.required': 'Username is required',
-   *   'scores.*.number': 'Define scores as valid numbers'
-   * }
-   *
-   */
   public messages: CustomMessages = {
-    "name.required": "El campo name es requerido",
-    "last_name.required": "El campo last_name es requerido",
-    "email.required": "El campo email es requerido",
-    "email.email": "El campo email debe ser un correo válido",
-    "phone.required": "El campo phone es requerido",
-    "phone.mobile": "El campo phone debe ser un número de teléfono válido",
+    'name.required': 'El nombre es obligatorio.',
+    'name.alpha': 'El nombre solo puede contener letras y espacios.',
+    'name.maxLength': 'El nombre no puede exceder los 50 caracteres.',
+    'last_name.required': 'El apellido es obligatorio.',
+    'last_name.alpha': 'El apellido solo puede contener letras y espacios.',
+    'last_name.maxLength': 'El apellido no puede exceder los 50 caracteres.',
+    'email.required': 'El correo electrónico es obligatorio.',
+    'email.email': 'El correo electrónico debe ser válido.',
+    'email.maxLength': 'El correo electrónico no puede exceder los 100 caracteres.',
+    'email.unique': 'El correo electrónico ya está registrado.',
+    'phone.required': 'El número de teléfono es obligatorio.',
+    'phone.regex': 'El número de teléfono solo puede contener dígitos.',
+    'phone.minLength': 'El número de teléfono debe tener al menos 8 dígitos.',
+    'phone.maxLength': 'El número de teléfono no puede exceder los 15 dígitos.',
+    'rol.required': 'El rol es obligatorio.',
+    'rol.enum': 'El rol debe ser uno de los valores permitidos: admin, user o guest.',
+    'password.required': 'La contraseña es obligatoria.',
+    'password.minLength': 'La contraseña debe tener al menos 8 caracteres.',
+    'password.maxLength': 'La contraseña no puede exceder los 50 caracteres.'
   }
 }

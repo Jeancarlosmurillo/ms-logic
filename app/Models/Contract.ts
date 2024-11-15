@@ -1,7 +1,9 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, BelongsTo, belongsTo, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
 import Route from './Route'
 import Payment from './Payment'
+import Customer from './Customer'
+import Order from './Order'
 
 export default class Contract extends BaseModel {
   @column({ isPrimary: true })
@@ -15,6 +17,9 @@ export default class Contract extends BaseModel {
 
   @column()
   public customer_id: number
+
+  @column()
+  public order_id: number
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
@@ -35,4 +40,18 @@ export default class Contract extends BaseModel {
   })
 
   public payment: HasMany<typeof Payment>
+
+  @belongsTo(()=> Customer, { 
+    foreignKey:"customer_id" //contract_id es llave foranea de Contract
+  })
+
+  public customer : BelongsTo<typeof Customer>
+
+  //Relacion de 1 a N
+  @hasMany(()=> Order, { 
+    foreignKey:"contract_id" //id es llave foranea de Contract
+  })
+
+  public order : HasMany<typeof Order>
+
 }

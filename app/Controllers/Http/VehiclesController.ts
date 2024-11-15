@@ -1,6 +1,6 @@
  import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Vehicle from 'App/Models/Vehicle';
-//import VehicleValidator from 'App/Validators/VehiclesValidator';
+import VehicleValidator from 'App/Validators/VehicleValidator';
 
 export default class VehiclesController {
     public async find({ request, params }: HttpContextContract) {
@@ -22,6 +22,7 @@ export default class VehiclesController {
 
     }
     public async create({ request }: HttpContextContract) {
+        await request.validate(VehicleValidator) //Validador
         const body = request.body();
         //const body = await request.validate(VehicleValidator);
         const thevehicle: Vehicle = await Vehicle.create(body);
@@ -29,13 +30,13 @@ export default class VehiclesController {
     }
 
     public async update({ params, request }: HttpContextContract) {
+        await request.validate(VehicleValidator) //Validador
         const thevehicle: Vehicle = await Vehicle.findOrFail(params.id);
         const body = request.body();
         thevehicle.plate = body.plate;
         thevehicle.type = body.type;
-        thevehicle.capacitity = body.capacitity;
+        thevehicle.capacitity_kg = body.capacitity_kg;
         thevehicle.state = body.state;
-        thevehicle.current_location = body.current_location;
         return await thevehicle.save();
     }
 

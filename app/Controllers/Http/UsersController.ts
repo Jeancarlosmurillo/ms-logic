@@ -35,6 +35,7 @@ export default class UsersController {
         theUser.email = body.email;
         theUser.phone = body.phone;
         theUser.rol = body.rol;
+        theUser.password=body.password;
         return await theUser.save();
     }
 

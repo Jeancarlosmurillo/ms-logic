@@ -1,7 +1,6 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Route from 'App/Models/Route';
-import RoutesValidator from 'App/Validators/RoutesValidator';
-
+import RouteValidator from 'App/Validators/RouteValidator';
 
 export default class RoutesController {
     
@@ -25,7 +24,8 @@ export default class RoutesController {
 
     }
     public async create({ request }: HttpContextContract) {
-        const body = await request.validate(RoutesValidator);
+        await request.validate(RouteValidator) //Validador
+        const body = request.body();
         const theRoute: Route = await Route.create(body);
         await theRoute.load("contract")
         await theRoute.load("vehicle")
@@ -33,13 +33,9 @@ export default class RoutesController {
     }
 
     public async update({ params, request }: HttpContextContract) {
+        await request.validate(RouteValidator) //Validador
         const theRoute: Route = await Route.findOrFail(params.id);
         const body = request.body();
-        theRoute.route_start = body.route_start;
-        theRoute.route_end = body.route_end;
-        theRoute.start_date = body.start_date;
-        theRoute.end_date = body.end_date;
-        theRoute.state = body.state;
         theRoute.contract_id = body.contract_id;
         theRoute.vehicle_id = body.vehicle_id;
         return await theRoute.save();
