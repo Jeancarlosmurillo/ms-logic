@@ -16,10 +16,6 @@ export default class HotelValidator {
       rules.required(),
       rules.minLength(1),
       rules.maxLength(60),
-      rules.unique({
-        table: 'hotel', column: 'name', whereNot: this.ctx.params.id ? { id: this.ctx.params.id } : undefined,
-        caseInsensitive: true,
-      }),
     ]),
     is_available: schema.boolean.optional(),
   })

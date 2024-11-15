@@ -11,9 +11,7 @@ export default class DistributionCentreValidator {
     address_id: schema.number([
       rules.unsigned()
     ]),
-    name: schema.string([
-      rules.alpha()
-    ]),
+    name_centre: schema.string(),
     phone: schema.string([
       rules.regex(/^\d+$/)
     ])
@@ -24,8 +22,7 @@ export default class DistributionCentreValidator {
     'municipality_id.unsigned': 'El ID del municipio debe ser un número positivo.',
     'address_id.required': 'El ID de la dirección es obligatorio.',
     'address_id.unsigned': 'El ID de la dirección debe ser un número positivo.',
-    'name.required': 'El nombre es obligatorio.',
-    'name.alpha': 'El nombre solo puede contener letras.',
+    'name_centre.required': 'El nombre es obligatorio.',
     'phone.required': 'El teléfono es obligatorio.',
     'phone.regex': 'El teléfono solo puede contener números.'
   }

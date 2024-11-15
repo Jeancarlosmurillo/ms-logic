@@ -34,6 +34,7 @@ export default class VehiclesController {
         const thevehicle: Vehicle = await Vehicle.findOrFail(params.id);
         const body = request.body();
         thevehicle.plate = body.plate;
+        thevehicle.transit_license = body.transit_license
         thevehicle.type = body.type;
         thevehicle.capacitity_kg = body.capacitity_kg;
         thevehicle.state = body.state;

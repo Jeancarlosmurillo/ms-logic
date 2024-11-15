@@ -19,8 +19,7 @@ export default class CategoryProductValidator {
       rules.maxLength(100)
     ]),
     door_number: schema.string({}, [
-      rules.regex(/^\d+$/),
-      rules.maxLength(10)
+      rules.maxLength(6)
     ]),
     municipality_id: schema.number([
       rules.unsigned()

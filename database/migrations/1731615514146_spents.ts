@@ -9,7 +9,7 @@ export default class extends BaseSchema {
       table.integer('travel_expense_id').unsigned().references("travel_expenses.id")
       table.integer('driver_id').unsigned().references("drivers.id")
       table.integer('owner_id').unsigned().references("owners.id")
-      table.integer('service_id').unsigned().references("services.id")
+     // table.integer('service_id').unsigned().references("services.id")
 
 
 

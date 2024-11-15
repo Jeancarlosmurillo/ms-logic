@@ -7,6 +7,8 @@ export default class SpentsController {
             let theSpent:Spent = await Spent.findOrFail(params.id)
             await theSpent.load("travel_expense");
             await theSpent.load("driver");
+            await theSpent.load('owner');
+           // await theSpent.load('service')
             return theSpent; //Visualizar un solo elemento 
         } else {
             const data = request.all()

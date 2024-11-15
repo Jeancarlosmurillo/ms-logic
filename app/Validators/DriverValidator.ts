@@ -6,11 +6,10 @@ export default class DriverValidator {
 
   public schema = schema.create({ license: schema.number([
     rules.unsigned(), // La licencia debe ser un número positivo
-    rules.range(100000, 999999), // Limita la licencia a 6 dígitos (ajusta el rango según tus requisitos)
+    rules.maxLength(20), // maximo 20 digitos de la licencia 
   ]),
-  license_type: schema.string({}, [
-    rules.maxLength(3), // Limita el tipo de licencia a 3 caracteres (por ejemplo: 'A1', 'B2')
-  ]),
+  license_type: schema.enum(['B1', 'B2', 'B3','C1','C2','C3']),
+
   user_id: schema.number([
     rules.exists({ table: 'users', column: 'id' }), // Verifica que el usuario exista en la tabla `users`
     rules.unsigned(), // El ID de usuario debe ser un número positivo
@@ -20,9 +19,9 @@ export default class DriverValidator {
 public messages:CustomMessages = {
   'license.required': 'El número de licencia es obligatorio',
   'license.unsigned': 'El número de licencia debe ser un número positivo',
-  'license.range': 'El número de licencia debe ser de 6 dígitos',
-  'license_type.required': 'El tipo de licencia es obligatorio',
-  'license_type.maxLength': 'El tipo de licencia no puede exceder los 3 caracteres',
+  'license.maxLength': 'El numero de la licencia sobre pasa el maximo(20)',
+  'license_type.enum': 'El tipo de licencia es obligatorio',
+  'license_type.maxLength': 'El tipo de licencia es incorrecto',
   'user_id.required': 'El ID de usuario es obligatorio',
   'user_id.exists': 'El usuario especificado no existe',
   'user_id.unsigned': 'El ID de usuario debe ser un número positivo',}

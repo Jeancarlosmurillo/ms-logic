@@ -34,6 +34,7 @@ export default class LotsController {
         const body = request.body(); //leer lo que viene en la carta
         theLot.weight = body.weight;  //de lo que está en la base de datos, actualice con lo que viene dentro del body
         theLot.quantity_kg= body.quantity_kg;
+        theLot.route_id= body.route_id;
         return await theLot.save(); //se confirma a la base de datos el cambio
       }
     

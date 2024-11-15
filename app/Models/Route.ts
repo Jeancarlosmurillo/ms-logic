@@ -4,6 +4,8 @@ import Contract from './Contract'
 import Vehicle from './Vehicle'
 import Lot from './Lot'
 import Address from './Address'
+import Order from './Order'
+import Tranch from './Tranch'
 
 export default class Route extends BaseModel {
   @column({ isPrimary: true })
@@ -38,10 +40,10 @@ export default class Route extends BaseModel {
   })
   public lot : HasMany<typeof Lot>
 
- /* @belongsTo(()=> Order, { 
+ @belongsTo(()=> Order, { 
     foreignKey:"order_id" 
   })
-  public order : BelongsTo<typeof Order> */
+  public order : BelongsTo<typeof Order> 
 
 
 
@@ -51,6 +53,14 @@ export default class Route extends BaseModel {
   })
 
   public address: HasMany<typeof Address>
+
+
+  @hasMany (()=> Tranch,{
+    // nombre de la clave foranea
+    foreignKey:'route_id'
+  })
+
+  public tranch: HasMany<typeof Tranch>
 
   
 }

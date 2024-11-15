@@ -8,7 +8,7 @@ export default class extends BaseSchema {
       table.increments('id')
       table.integer('license')
       table.string('license_type')
-      table.integer('user_id').unsigned().references("users.id")
+      table.integer('user_id').unsigned().references("users.id").onDelete("CASCADE")
 
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL

@@ -5,9 +5,7 @@ export default class MunicipalityValidator {
   constructor(protected ctx: HttpContextContract) {}
 
   public schema = schema.create({
-    name_municipality: schema.string([
-      rules.alpha()
-    ]),
+    name_municipality: schema.string(),
     departament_id: schema.number([
       rules.unsigned()
     ])

@@ -2,6 +2,7 @@ import { DateTime } from 'luxon'
 import { BaseModel, belongsTo, BelongsTo, column } from '@ioc:Adonis/Lucid/Orm'
 import TravelExpense from './TravelExpense'
 import Driver from './Driver'
+import Owner from './Owner'
 
 export default class Spent extends BaseModel {
   @column({ isPrimary: true })
@@ -37,4 +38,10 @@ export default class Spent extends BaseModel {
   })
 
   public driver : BelongsTo<typeof Driver>
+
+  @belongsTo(() => Owner,{
+    foreignKey:"owner_id"
+  })
+
+  public owner: BelongsTo<typeof Owner>
 }

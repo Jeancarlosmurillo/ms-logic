@@ -15,11 +15,8 @@ export default class RestaurantValidator {
     name: schema.string({}, [
       rules.required(),
       rules.minLength(1),
-      rules.maxLength(60),
-      rules.unique({
-        table: 'restaurant', column: 'name', whereNot: this.ctx.params.id ? { id: this.ctx.params.id } : undefined,
-        caseInsensitive: true,
-      }),
+      rules.maxLength(60)
+
     ]),
     is_available: schema.boolean.optional(),
   })

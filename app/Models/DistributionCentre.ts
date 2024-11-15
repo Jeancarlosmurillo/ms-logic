@@ -1,7 +1,8 @@
 import { DateTime } from 'luxon'
-import { BaseModel, BelongsTo, belongsTo, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, BelongsTo, belongsTo, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
 import Municipality from './Municipality'
 import Address from './Address'
+import Tranch from './Tranch'
 
 export default class DistributionCentre extends BaseModel {
   @column({ isPrimary: true })
@@ -36,4 +37,18 @@ export default class DistributionCentre extends BaseModel {
     foreignKey: 'address_id'
   })
   public addres :BelongsTo<typeof Address>
+
+  @hasMany (()=>Tranch,{
+    // nombre de la clave foranea
+    foreignKey:'origin',
+  })
+
+  public tranch_start: HasMany<typeof Tranch>
+
+  @hasMany (()=>Tranch,{
+    // nombre de la clave foranea
+    foreignKey:'destination'
+  })
+
+  public tranch_end: HasMany<typeof Tranch>
 }
