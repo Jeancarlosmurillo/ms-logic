@@ -32,10 +32,11 @@ import './routes/distribution_centres'
 import "./routes/category" //registro de la ruta de categorias 
 import "./routes/product" //registro de la ruta de productos 
 import "./routes/categoryProducts" //registro de la ruta de categoria de los productos 
-import "./routes/operations" //registro de la ruta de las operaciones 
 import "./routes/payment" //registro de la ruta de los pagos   
 import "./routes/bill" //registro de la ruta de las facturas 
 import "./routes/customer" //registro de la ruta de los clientes 
+import "./routes/company"
+import "./routes/naturalPerson"
 
 import "./routes/contract" //registro de la ruta de contratos
 import "./routes/vehicle" //registro de la ruta de vehiculos
