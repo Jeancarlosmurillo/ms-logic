@@ -3,7 +3,6 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 export default class SureValidator {
   constructor(protected ctx: HttpContextContract) {}
-
   
   public schema = schema.create({
     vehicle_id: schema.number([
@@ -14,19 +13,18 @@ export default class SureValidator {
       rules.maxLength(20), // Limita la longitud del número de póliza
     ]),
     issue_date: schema.date({format: 'yyyy-MM-dd'}),
+    
     expiration_date: schema.date({format: 'yyyy-MM-dd'},[
       rules.afterField('issue_date'), // La fecha de expiración debe ser después de la fecha de emisión
     ]),
     value: schema.number([
       rules.unsigned(), // Asegura que el valor sea positivo
     ]),
-    validity: schema.string({}, [
-      rules.maxLength(50), // Limita la longitud de la validez a 50 caracteres
-    ]),
+    validity: schema.enum( [ 'Activo', 'Expirado' ]),// Limita la longitud de la validez a 50 caracteres
     insurance_company: schema.string({}, [
       rules.maxLength(100), // Limita la longitud del nombre de la compañía aseguradora
     ]),
-    payment_status: schema.enum(['pagado', 'no pagado', 'pendiente']), // Estado de pago permitido
+    payment_status: schema.enum(['Pagado', 'No pagado', 'Pendiente']), // Estado de pago permitido
   })
 
   public messages: CustomMessages = {
@@ -42,9 +40,9 @@ export default class SureValidator {
     'value.number': 'El valor debe ser un número',
     'value.unsigned': 'El valor debe ser un número positivo',
     'validity.required': 'La validez es obligatoria',
-    'validity.maxLength': 'La validez no puede tener más de 50 caracteres',
+    'validity.maxLength': 'La validez debe ser uno de los siguientes: Activo, Expirado',
     'insurance_company.required': 'La compañía aseguradora es obligatoria',
     'insurance_company.maxLength': 'El nombre de la compañía aseguradora no puede tener más de 100 caracteres',
     'payment_status.required': 'El estado de pago es obligatorio',
-    'payment_status.enum': 'El estado de pago debe ser uno de los siguientes: pagado, no pagado, pendiente'}
+    'payment_status.enum': 'El estado de pago debe ser uno de los siguientes: Pagado, No pagado, Pendiente'}
 }

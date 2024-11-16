@@ -24,14 +24,11 @@ export default class NaturalPersonValidator {
    *    ```
    */
   public schema = schema.create({
-
-    email: schema.string({}, [
-      rules.email()
+    user_id: schema.number([
+      rules.exists({ table: 'users', column: 'id' }), // Verifica que el usuario exista en la tabla `users`
+      rules.unsigned(), // El ID de usuario debe ser un número positivo
     ]),
   })
-
-  
-
   
   public messages: CustomMessages = {}
 }

@@ -11,6 +11,7 @@ export default class extends BaseSchema {
       table.integer('price')
       table.integer('cuantity')
       table.integer('lot_id').unsigned().references("lots.id").onDelete("CASCADE")
+      table.integer('customer_id').unsigned().references('customers.id').onDelete('CASCADE')
 
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL

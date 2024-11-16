@@ -24,17 +24,39 @@ export default class CustomerValidator {
    *    ```
    */
   public schema = schema.create({
-    
-    name: schema.string(),
-    user_id: schema.number([
-      rules.exists({ table: "users", column: "id" }),
-     ]),
-     type_id: schema.string(),
-     number_phone: schema.number()
+    company_id: schema.number.optional([
+      rules.exists({ table: 'companies', column: 'id' }), // Verifica que la empresa exista
+      rules.unsigned(), // Debe ser un número positivo
+    ]),
+    person_id: schema.number.optional([
+      rules.exists({ table: 'persons', column: 'id' }), // Verifica que la persona exista
+      rules.unsigned(), // Debe ser un número positivo
+    ]),
   })
 
+  public messages: CustomMessages = {
+    'company_id.exists': 'El ID de la empresa no existe en la base de datos.',
+    'company_id.unsigned': 'El ID de la empresa debe ser un número positivo.',
+    'person_id.exists': 'El ID de la persona no existe en la base de datos.',
+    'person_id.unsigned': 'El ID de la persona debe ser un número positivo.',
+  }
 
+  /**
+   * Validación personalizada para asegurar que al menos uno de los campos sea enviado
+   */
+  public async validate(payload: any) {
+    const { company_id, person_id } = payload
 
- 
-  public messages: CustomMessages = {}
+    if (!company_id && !person_id) {
+      throw new Error(
+        'Debes proporcionar un "company_id" si es una empresa o un "person_id" si es una persona natural.'
+      )
+    }
+
+    if (company_id && person_id) {
+      throw new Error(
+        'Solo uno de los campos, "company_id" o "person_id", debe ser proporcionado, no ambos.'
+      )
+    }
+  }
 }

@@ -5,11 +5,11 @@ export default class OrderValidator {
   constructor(protected ctx: HttpContextContract) {}
 
   public schema = schema.create({
-    ype: schema.string({}, [
+    type: schema.enum(['Recogida','Transferencia','Entrega parcial', 'Entrega final'], [
       rules.maxLength(20), // Limita el tipo a 20 caracteres
     ]),
     date_order: schema.date( { format: 'yyyy-MM-dd' }, [
-      rules.beforeOrEqual('today'), // La fecha de la orden debe ser hoy o en el pasado
+      //rules.beforeOrEqual('today'), // La fecha de la orden debe ser hoy o en el pasado
     ]),
     address_id: schema.number([
       rules.exists({ table: 'addresses', column: 'id' }), // Verifica que la dirección exista

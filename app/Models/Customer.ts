@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column, HasMany, hasMany, HasOne, hasOne } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, BelongsTo, belongsTo, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
 import Product from './Product'
 import Contract from './Contract'
 import Company from './Company'
@@ -10,16 +10,10 @@ export default class Customer extends BaseModel {
   public id: number
 
   @column()
-  public name: string
+  public company_id: number
 
   @column()
-  public user_id: number
-
-  @column()
-  public type_id: string
-
-  @column()
-  public number_phone: number
+  public person_id: number
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
@@ -39,17 +33,15 @@ public product: HasMany<typeof Product>;
 })
 public contract: HasMany<typeof Contract>;
 
-@hasOne(() => Company, {
-  foreignKey: "customer_id", //Clave foránea que relaciona la identidad dominada
+@belongsTo(() => Company, {
+  foreignKey: "company_id", //Clave foránea que relaciona la identidad dominada
 })
-public companies: HasOne<typeof Company>;
-
+public companies: BelongsTo<typeof Company>;
 
 //Relacion de 1 a 1 
-@hasOne(() => NaturalPerson, {
-  foreignKey: "customer_id", //Clave foránea que relaciona la identidad dominada
+@belongsTo(() => NaturalPerson, {
+  foreignKey: "person_id}", //Clave foránea que relaciona la identidad dominada
 })
-public NaturalPerson: HasOne<typeof NaturalPerson>;
-
+public NaturalPerson: BelongsTo<typeof NaturalPerson>;
 
 }

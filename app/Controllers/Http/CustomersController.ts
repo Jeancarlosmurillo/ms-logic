@@ -6,12 +6,12 @@ import Env from "@ioc:Adonis/Core/Env";
 import CustomerValidator from 'App/Validators/CustomerValidator';
 
 export default class CustomersController {
-
     public async find({ request, params }: HttpContextContract) {
         try {
             if (params.id) {
                 let theCustomer: Customer = await Customer.findOrFail(params.id);
-                // Se llama al MS_SECURITY para validar a los usuarios
+                return theCustomer;
+                /*Se llama al MS_SECURITY para validar a los usuarios
                 const userResponse = await axios.get(
                  `${Env.get("proyecto-prog-3")}/users/${theCustomer.user_id}`, 
                     {
@@ -23,7 +23,7 @@ export default class CustomersController {
                         "No se encontró información del usuario en el sistema",
                         404
                     );
-                } return { custromer: theCustomer, usuario: userResponse.data };
+                } return { custromer: theCustomer, usuario: userResponse.data };*/
             } else {
                 const data = request.all();
                 if ("page" in data && "per_page" in data) {
@@ -43,10 +43,10 @@ export default class CustomersController {
     }
 
 public async create({ request, response }: HttpContextContract) {
-    try {
+    //try {
         // Validar datos usando el ClienteValidator
         const body = request.body();
-        // Llamada al MS_SECURITY para validar al usuario
+        /*// Llamada al MS_SECURITY para validar al usuario
         const userResponse = await axios.get(
             `${Env.get("proyecto-prog-3")}/users/${body.user_id}`, // cambiar 
             {
@@ -60,11 +60,11 @@ public async create({ request, response }: HttpContextContract) {
                     "No se encontró información del usuario, verifique que el id sea correcto",
             });
         }
-        // Crear el driver si la validación y la verificación de usuario son exitosas
+        // Crear el driver si la validación y la verificación de usuario son exitosas*/
         await request.validate(CustomerValidator);
         const theCustomer: Customer = await Customer.create(body);
         return theCustomer;
-    } catch (error) {
+    } /*catch (error) {
         // Si el error es de validación, devolver los mensajes de error de forma legible
         if (error.messages) {
             return response.badRequest({ errors: error.messages.errors });
@@ -75,14 +75,12 @@ public async create({ request, response }: HttpContextContract) {
             error.status || 500
         );
     }
-}
-public async update({ params, request }: HttpContextContract) {
+}*/
+    public async update({ params, request }: HttpContextContract) {
     const theCustomer: Customer = await Customer.findOrFail(params.id);
     const body = request.body();
-    theCustomer.name=body.name;
-    theCustomer.user_id = body.user_id;
-    theCustomer.type_id= body.type_id;
-    theCustomer.number_phone = body.number_phone;
+    theCustomer.company_id=body.company_id;
+    theCustomer.person_id = body.person_id;
     return await theCustomer.save();
 }
 

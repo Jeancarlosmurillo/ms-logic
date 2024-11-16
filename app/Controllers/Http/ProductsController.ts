@@ -33,6 +33,7 @@ export default class ProductsController {
         theProduct.description = body.description;
         theProduct.price = body.price;
         theProduct.cuantity = body.cuantity;
+        theProduct.customer_id = body.customer_id
         return await theProduct.save(); //se confirma a la base de datos el cambio
       }
     

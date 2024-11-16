@@ -7,7 +7,7 @@ export default class CompaniesController {
     public async find({ request, params }: HttpContextContract) {
         if (params.id) {
             let theCompany: Company = await Company.findOrFail(params.id)
-            await theCompany.load('customer')
+            await theCompany.load('naturalperson')
             return theCompany;
         } else {
             const data = request.all()
@@ -25,14 +25,16 @@ export default class CompaniesController {
         await request.validate(CompanyValidator);
         const body = request.body();
         const theCompany: Company = await Company.create(body);
-        await theCompany.load('customer')
+        await theCompany.load('naturalperson')
         return theCompany;
     }
 
     public async update({ params, request }: HttpContextContract) {
         const theCompany: Company = await Company.findOrFail(params.id);
         const body = request.body();
-        theCompany.representative = body.representative;
+        theCompany.name_company = body.name_company;
+        theCompany.phone_company = body.phone_company;
+        theCompany.person_id = body.person_id;
         return await theCompany.save();
     }
 

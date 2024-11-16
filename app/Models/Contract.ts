@@ -42,7 +42,7 @@ export default class Contract extends BaseModel {
   public payment: HasMany<typeof Payment>
 
   @belongsTo(()=> Customer, { 
-    foreignKey:"customer_id" //contract_id es llave foranea de Contract
+    foreignKey:"customer_id" //customer_id es llave foranea de Contract
   })
 
   public customer : BelongsTo<typeof Customer>

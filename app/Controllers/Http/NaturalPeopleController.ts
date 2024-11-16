@@ -7,8 +7,7 @@ export default class NaturalPeopleController {
     public async find({ request, params }: HttpContextContract) {
         if (params.id) {
             let theNaturalPerson: NaturalPerson = await NaturalPerson.findOrFail(params.id)
-            await theNaturalPerson.load('Company');
-            await theNaturalPerson.load('customer');
+            await theNaturalPerson.load('user');
             return theNaturalPerson;
         } else {
             const data = request.all()
@@ -26,17 +25,14 @@ export default class NaturalPeopleController {
         await request.validate(NaturalPersonValidator);
         const body = request.body();
         const theNaturalPerson: NaturalPerson = await NaturalPerson.create(body);
-        await theNaturalPerson.load('Company');
-        await theNaturalPerson.load('customer')
+        await theNaturalPerson.load('user');
         return theNaturalPerson;
     }
 
     public async update({ params, request }: HttpContextContract) {
         const theNaturalPerson: NaturalPerson = await NaturalPerson.findOrFail(params.id);
         const body = request.body();
-        theNaturalPerson.email = body.email;
-        theNaturalPerson.company_id = body.company_id;
-        theNaturalPerson.customer_id = body.customer_id
+        theNaturalPerson.user_id = body.user_id
         return await theNaturalPerson.save();
     }
 

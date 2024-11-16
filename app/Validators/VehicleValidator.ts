@@ -9,7 +9,6 @@ export default class VehicleValidator {
       rules.maxLength(10),
       rules.unique({ table: 'vehicles', column: 'plate' }), // Asegura que la placa sea única
     ]),
-    //type: schema.enum(['car', 'truck', 'motorcycle']), // Solo permite ciertos tipos de vehículos
     capacitity_kg: schema.number([
       rules.unsigned(), // Asegura que la capacidad sea un número positivo
     ]),

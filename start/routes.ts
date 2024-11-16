@@ -54,4 +54,5 @@ import "./routes/users"
 import "./routes/administrators"
 import "./routes/owner"
 import "./routes/ownerVehicle"
+import "./routes/services"
 
