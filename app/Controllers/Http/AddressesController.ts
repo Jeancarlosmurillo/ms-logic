@@ -1,5 +1,6 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Address from 'App/Models/Address';
+import AddressValidator from 'App/Validators/AddressValidator';
 
 
 export default class AddressesController {
@@ -22,7 +23,7 @@ export default class AddressesController {
 
     }
     public async create({ request }: HttpContextContract) {
-        const body = request.body();
+        const body = await request.validate(AddressValidator);
         const theAddress: Address= await Address.create(body);
 
         return theAddress;

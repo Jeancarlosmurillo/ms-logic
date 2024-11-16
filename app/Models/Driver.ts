@@ -3,6 +3,7 @@ import { BaseModel, BelongsTo, belongsTo, column, HasMany, hasMany } from '@ioc:
 import User from './User'
 import Shift from './Shift'
 import VehiclesDriver from './VehiclesDriver'
+import Spent from './Spent'
 
 export default class Driver extends BaseModel {
   @column({ isPrimary: true })
@@ -40,5 +41,11 @@ export default class Driver extends BaseModel {
   })
 
   public vehiclesDriver: HasMany<typeof VehiclesDriver>
+
+  @hasMany (()=>Spent,{
+    // nombre de la clave foranea
+    foreignKey:'driver_id'
+  })
+  public spent: HasMany<typeof Spent>
 
 }

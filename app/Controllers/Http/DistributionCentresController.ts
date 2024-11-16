@@ -1,5 +1,6 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import DistributionCentre from 'App/Models/DistributionCentre';
+import DistributionCentreValidator from 'App/Validators/DistributionCentreValidator';
 
 export default class DistributionCentresController {
     public async find({ request, params }: HttpContextContract) {
@@ -21,7 +22,7 @@ export default class DistributionCentresController {
 
     }
     public async create({ request }: HttpContextContract) {
-        const body = request.body();
+        const body = await request.validate(DistributionCentreValidator);
         const theDistributionCentre: DistributionCentre= await DistributionCentre.create(body);
        // await theDistributionCentre.load("municipality");
         return theDistributionCentre;

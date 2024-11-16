@@ -1,12 +1,13 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 import Departament from "App/Models/Departament";
+import DepartamentValidator from 'App/Validators/DepartamentValidator';
 
 export default class DepartamentsController {
     public async find({ request, params }: HttpContextContract) {
         if (params.id) {
             let theDepartament: Departament = await Departament.findOrFail(params.id)
-           // await theDepartament.load("theater");
+           //}}}} await theDepartament.load("theater");
             return theDepartament; // Visualizar un solo elemento 
         } else {
             const data = request.all()
@@ -22,7 +23,7 @@ export default class DepartamentsController {
 
     }
     public async create({ request }: HttpContextContract) {
-        const body = request.body();
+        const body = await request.validate(DepartamentValidator);
         const theDepartament: Departament= await Departament.create(body);
         //await theDepartament.load("theater");
         return theDepartament;

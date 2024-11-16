@@ -1,5 +1,6 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Payment from 'App/Models/Payment';
+import PaymentValidator from 'App/Validators/PaymentValidator';
 
 export default class PaymentsController {
 
@@ -19,8 +20,7 @@ export default class PaymentsController {
         }
       }
       public async create({ request }: HttpContextContract) {
-      //  await request.validate(PaymentValidator) 
-        const body = request.body();
+       const body = await request.validate(PaymentValidator) 
         const thePayment: Payment = await Payment.create(body);
         return thePayment;
       }

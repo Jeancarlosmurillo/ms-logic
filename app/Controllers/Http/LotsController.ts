@@ -1,5 +1,6 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Lot from 'App/Models/Lot';
+import LotValidator from 'App/Validators/LotValidator';
 
 export default class LotsController {
 
@@ -22,8 +23,7 @@ export default class LotsController {
         }
       }
       public async create({ request }: HttpContextContract) {
-      //  await request.validate(LotValidator)
-        const body = request.body();
+        const body= await request.validate(LotValidator);
         const theLot: Lot = await Lot.create(body);
         await theLot.load('route')
         return theLot;
@@ -34,6 +34,7 @@ export default class LotsController {
         const body = request.body(); //leer lo que viene en la carta
         theLot.weight = body.weight;  //de lo que está en la base de datos, actualice con lo que viene dentro del body
         theLot.quantity_kg= body.quantity_kg;
+        theLot.route_id= body.route_id;
         return await theLot.save(); //se confirma a la base de datos el cambio
       }
     

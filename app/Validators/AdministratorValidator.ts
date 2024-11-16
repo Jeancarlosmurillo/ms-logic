@@ -10,6 +10,9 @@ export default class AdministratorValidator {
       ])
   })
 
-  public messages: CustomMessages = {}
+  public messages: CustomMessages = {
+     'user_id.required': 'El ID del usuario es obligatorio.',
+    'user_id.unsigned': 'El ID del usuario debe ser un número positivo.'
+  }
 }
 
