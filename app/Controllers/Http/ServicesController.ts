@@ -9,16 +9,16 @@ export default class ServicesController {
             let theService: Service = await Service.findOrFail(params.id)
             await theService.load("contract");
             await theService.load("administrator");
-            //await theService.load("")
+            await theService.load('tranch')
             return theService; //Visualizar un solo elemento 
         } else {
             const data = request.all()
             if ("page" in data && "per_page" in data) {
                 const page = request.input('page', 1); // Paginas 
                 const perPage = request.input("per_page", 20); //Lista los primeros 20
-                return await Service.query().preload('contract').preload('administrator').paginate(page, perPage)
+                return await Service.query().preload('contract').preload('administrator').preload('tranch').paginate(page, perPage)
             } else {
-                return await Service.query().preload('contract').preload('administrator')
+                return await Service.query().preload('contract').preload('administrator').preload('tranch')
             } //Devuelve todos los elementos 
 
         }
@@ -30,7 +30,7 @@ export default class ServicesController {
         const theService: Service = await Service.create(body);
         await theService.load("contract")
         await theService.load("administrator")
-        //await theService.load("")
+        await theService.load('tranch')
         return theService;
     }
 
@@ -42,7 +42,7 @@ export default class ServicesController {
         theService.date_service = body.date_service
         theService.contract_id = body.contract_id;
         theService.administrator_id = body.administrator_id
-        theService.tranches_id = body.traches_id;
+        theService.tranch_id = body.traches_id;
         return await theService.save();
     }
 

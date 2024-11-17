@@ -5,12 +5,13 @@ export default class LotValidator {
   constructor(protected ctx: HttpContextContract) {}
 
   public schema = schema.create({
-    weigth: schema.number([
+    weight: schema.number([
       rules.range(1, 100000000)
     ]),
     quantity_kg: schema.number([
       rules.range(1, 100000000)
-    ])
+    ]),
+    route_id: schema.number([rules.exists({ table: 'routes', column: 'id' })]) // Verifica que la ruta existe
   })
 
   public messages: CustomMessages = {

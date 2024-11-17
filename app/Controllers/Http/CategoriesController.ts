@@ -13,7 +13,7 @@ export default class CategoriesController {
           if ("page" in data && "per_page" in data) {
             const page = request.input("page", 1);
             const perPage = request.input("per_page", 20);  
-            return await Category.query().paginate(page, perPage);  //cuando hace la consulta se hace en ese rango de pagina
+            return await Category.query().preload('category').paginate(page, perPage);  //cuando hace la consulta se hace en ese rango de pagina
           } else {
             return await Category.query(); //es para que espere a la base de datos
           }
@@ -23,6 +23,7 @@ export default class CategoriesController {
         await request.validate(CategoryValidator);
         const body = request.body();
         const theCategory: Category = await Category.create(body);
+        await theCategory.load("category")
         return theCategory;
       }
     

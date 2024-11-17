@@ -4,9 +4,10 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 export default class DriverValidator {
   constructor(protected ctx: HttpContextContract) {}
 
-  public schema = schema.create({ license: schema.number([
+  public schema = schema.create({ 
+    license: schema.number([
     rules.unsigned(), // La licencia debe ser un número positivo
-    rules.maxLength(20), // maximo 20 digitos de la licencia 
+    rules.range(1, 99999999999999999999), // maximo 20 digitos de la licencia 
   ]),
   license_type: schema.enum(['B1', 'B2', 'B3','C1','C2','C3']),
 

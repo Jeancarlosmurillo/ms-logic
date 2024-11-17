@@ -6,25 +6,26 @@ export default class DistributionCentresController {
     public async find({ request, params }: HttpContextContract) {
         if (params.id) {
             let thedistributionCentre: DistributionCentre = await DistributionCentre.findOrFail(params.id)
-           // await theDistributionCentre.load("municipality");
+           await thedistributionCentre.load("municipality");
+           await thedistributionCentre.load('addres')
             return thedistributionCentre; // Visualizar un solo elemento 
         } else {
             const data = request.all()
             if ("page" in data && "per_page" in data) {
                 const page = request.input('page', 1); // Paginas 
                 const perPage = request.input("per_page", 20); // Lista los primeros 20
-                return await DistributionCentre.query().paginate(page, perPage)
+                return await DistributionCentre.query().preload('municipality').preload('addres').paginate(page, perPage)
             } else {
-                return await DistributionCentre.query()
+                return await DistributionCentre.query().preload('municipality').preload('addres')
             } 
-
         }
 
     }
     public async create({ request }: HttpContextContract) {
         const body = await request.validate(DistributionCentreValidator);
         const theDistributionCentre: DistributionCentre= await DistributionCentre.create(body);
-       // await theDistributionCentre.load("municipality");
+        await theDistributionCentre.load("municipality");
+        await theDistributionCentre.load('addres')
         return theDistributionCentre;
     }
 

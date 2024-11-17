@@ -8,7 +8,10 @@ export default class ContractsController {
         public async find({ request, params }: HttpContextContract) {
             if (params.id) {
                 let theContract: Contract = await Contract.findOrFail(params.id)
-                await theContract.load("customer");
+                await theContract.load("customer", (Customer) => {
+                    Customer.preload('NaturalPerson')
+                    Customer.preload('companies', (Company) => Company.preload('naturalperson'))
+                  });
                 await theContract.load("order");
                 return theContract; // Visualizar un solo elemento 
             } else {
@@ -16,9 +19,13 @@ export default class ContractsController {
                 if ("page" in data && "per_page" in data) {
                     const page = request.input('page', 1); // Paginas 
                     const perPage = request.input("per_page", 20); // Lista los primeros 20
-                    return await Contract.query().preload('customer').paginate(page, perPage)
+                    return await Contract.query().preload('customer', (Customer) => {
+                        Customer.preload('NaturalPerson')
+                        Customer.preload('companies', (Company) => Company.preload('naturalperson'))}).paginate(page, perPage)
                 } else {
-                    return await Contract.query().preload('customer')
+                    return await Contract.query().preload('customer', (Customer) => {
+                        Customer.preload('NaturalPerson')
+                        Customer.preload('companies', (Company) => Company.preload('naturalperson'))})
                 } // Devuelve todos los elementos 
     
             }
@@ -28,7 +35,11 @@ export default class ContractsController {
             await request.validate(ContractValidator) //Validador
             const body = request.body();
             const theContract: Contract = await Contract.create(body);
-            await theContract.load('customer')
+            if(body.company_id){
+            await theContract.load('customer', (Customer)=>{Customer.preload('NaturalPerson')})
+            }else if(body.person_id){
+                await theContract.load('customer', (Customer)=>{Customer.preload('companies')})
+            }
             return theContract;
         }
     

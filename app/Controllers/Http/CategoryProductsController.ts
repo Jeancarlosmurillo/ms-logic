@@ -6,15 +6,17 @@ export default class CategoryProductsProductsController {
     public async find({ request, params }: HttpContextContract) {
         if (params.id) {
           let theCategoryProduct: CategoryProduct = await CategoryProduct.findOrFail(params.id); 
+          await theCategoryProduct.load('category', (Category) => {Category.preload('category')})
+          await theCategoryProduct.load('product')
           return theCategoryProduct;
         } else {
           const data = request.all();
           if ("page" in data && "per_page" in data) {
             const page = request.input("page", 1);
             const perPage = request.input("per_page", 20);  
-            return await CategoryProduct.query().paginate(page, perPage);  //cuando hace la consulta se hace en ese rango de pagina
+            return await CategoryProduct.query().preload('category', (Category) => {Category.preload('category')}).preload('product').paginate(page, perPage);  //cuando hace la consulta se hace en ese rango de pagina
           } else {
-            return await CategoryProduct.query(); //es para que espere a la base de datos
+            return await CategoryProduct.query().preload('category', (Category) => {Category.preload('category')}).preload('product'); //es para que espere a la base de datos
           }
         }
       }
@@ -22,6 +24,8 @@ export default class CategoryProductsProductsController {
         await request.validate(CategoryProductValidator)
         const body = request.body();
         const theCategoryProduct: CategoryProduct = await CategoryProduct.create(body);
+        await theCategoryProduct.load('category', (Category) => {Category.preload('category')})
+          await theCategoryProduct.load('product')
         return theCategoryProduct;
       }
     

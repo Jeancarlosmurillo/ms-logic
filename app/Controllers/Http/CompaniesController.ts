@@ -25,7 +25,7 @@ export default class CompaniesController {
         await request.validate(CompanyValidator);
         const body = request.body();
         const theCompany: Company = await Company.create(body);
-        await theCompany.load('naturalperson')
+        await theCompany.load('naturalperson', (NaturalPersonQuery)=>{NaturalPersonQuery.preload('user')})
         return theCompany;
     }
 

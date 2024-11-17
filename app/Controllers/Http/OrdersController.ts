@@ -1,15 +1,14 @@
  import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Order from 'App/Models/Order';
-import OperationValidator from 'App/Validators/OperationValidator';
 import OrderValidator from 'App/Validators/OrderValidator';
 
 export default class OrdersController {
     public async find({ request, params }: HttpContextContract) {
         if (params.id) {
             let theOrder: Order = await Order.findOrFail(params.id)
-            await theOrder.load('address');
-            await theOrder.load('lot');
-            await theOrder.load("contract");
+            await theOrder.load('address', (address)=>{address.preload('municipality')});
+            await theOrder.load('lot',(lot)=>{lot.preload('products')});
+            await theOrder.load("route",(route)=>(route.preload('contract')));
             return theOrder; //Visualizar un solo elemento 
         } else {
             const data = request.all()
@@ -18,14 +17,12 @@ export default class OrdersController {
                 const perPage = request.input("per_page", 20); //Lista los primeros 20
                 return await Order.query().paginate(page, perPage)//.preload('contract').preload('vehicle')
             } else {
-                return await Order.query()//.preload('contract').preload('vehicle')
+                return await Order.query().preload('route',(route)=>{route.preload('contract')}).preload('address', (address)=>{address.preload('municipality')}).preload('lot',(lot)=>{lot.preload('products')});
             } //Devuelve todos los elementos 
-
         }
-
     }
     public async create({ request }: HttpContextContract) {
-        await request.validate(OperationValidator) //Validador
+        await request.validate(OrderValidator) //Validador
         const body = request.body();
         const theOrder: Order = await Order.create(body);
         await theOrder.load('address');

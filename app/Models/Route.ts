@@ -3,7 +3,6 @@ import { BaseModel, BelongsTo, belongsTo, column, HasMany, hasMany } from '@ioc:
 import Contract from './Contract'
 import Vehicle from './Vehicle'
 import Lot from './Lot'
-import Address from './Address'
 import Order from './Order'
 import Tranch from './Tranch'
 
@@ -40,20 +39,10 @@ export default class Route extends BaseModel {
   })
   public lot : HasMany<typeof Lot>
 
- @belongsTo(()=> Order, { 
-    foreignKey:"order_id" 
+ @hasMany(()=> Order, { 
+    foreignKey:"route_id" 
   })
-  public order : BelongsTo<typeof Order> 
-
-
-
-  @hasMany (()=> Address,{
-    // nombre de la clave foranea
-    foreignKey:'address_id'
-  })
-
-  public address: HasMany<typeof Address>
-
+  public order : HasMany<typeof Order> 
 
   @hasMany (()=> Tranch,{
     // nombre de la clave foranea

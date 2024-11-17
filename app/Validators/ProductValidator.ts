@@ -23,7 +23,7 @@ export default class ProductValidator {
       rules.range(1, 1000000)
     ]),
     cuantity: schema.number([
-      rules.range(1, 1000)
+      rules.range(1, 1000000)
     ])
   })
 

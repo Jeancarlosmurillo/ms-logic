@@ -4,9 +4,7 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 export default class ShiftValidator {
   constructor(protected ctx: HttpContextContract) {}
   public schema = schema.create({
-    type_shift: schema.enum(['diurno','nocturno', 'turno extra'], [
-    rules.maxLength(20), // Limita el tipo de turno a 20 caracteres
-  ]),
+    type_shift: schema.enum(['diurno','nocturno', 'turno extra']),
   status: schema.string({}, [
     rules.maxLength(15), // Limita el estado a 15 caracteres (ej. 'Activo', 'Inactivo')
   ]),

@@ -40,7 +40,7 @@ public companies: BelongsTo<typeof Company>;
 
 //Relacion de 1 a 1 
 @belongsTo(() => NaturalPerson, {
-  foreignKey: "person_id}", //Clave foránea que relaciona la identidad dominada
+  foreignKey: "person_id", //Clave foránea que relaciona la identidad dominada
 })
 public NaturalPerson: BelongsTo<typeof NaturalPerson>;
 

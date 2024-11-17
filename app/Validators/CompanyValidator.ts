@@ -31,7 +31,7 @@ export default class CompanyValidator {
     ]),
 
     person_id: schema.number([
-      rules.exists({ table: 'persons', column: 'id' }), // Verifica que exista en la tabla de personas
+      rules.exists({ table: 'natural_people', column: 'id' }), // Verifica que exista en la tabla de personas
       rules.unsigned(), // Debe ser positivo
     ]),
 

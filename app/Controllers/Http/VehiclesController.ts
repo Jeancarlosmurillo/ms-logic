@@ -30,7 +30,6 @@ export default class VehiclesController {
     }
 
     public async update({ params, request }: HttpContextContract) {
-        await request.validate(VehicleValidator) //Validador
         const thevehicle: Vehicle = await Vehicle.findOrFail(params.id);
         const body = request.body();
         thevehicle.plate = body.plate;
