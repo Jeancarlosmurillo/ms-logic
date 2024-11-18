@@ -39,5 +39,5 @@ export default class BillsController {
         const theBill: Bill = await Bill.findOrFail(params.id); //buscarlo
         response.status(204);
         return await theBill.delete(); //el teatro que se encontro, eliminelo
-      }
+    }
 }
