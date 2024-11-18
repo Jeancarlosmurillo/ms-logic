@@ -37,4 +37,6 @@ export default class PaymentsController {
         response.status(204);
         return await thePayment.delete(); //el teatro que se encontro, eliminelo
       }
+
+    
 }

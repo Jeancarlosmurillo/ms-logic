@@ -1,8 +1,8 @@
 import { Exception } from '@adonisjs/core/build/standalone';
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Customer from 'App/Models/Customer';
-import axios from "axios";
-import Env from "@ioc:Adonis/Core/Env";
+// import axios from "axios";
+// import Env from "@ioc:Adonis/Core/Env";
 import CustomerValidator from 'App/Validators/CustomerValidator';
 
 export default class CustomersController {

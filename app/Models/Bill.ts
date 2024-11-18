@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon'
 import { BaseModel, BelongsTo, belongsTo, column } from '@ioc:Adonis/Lucid/Orm'
 import Payment from './Payment'
+import Spent from './Spent'
 
 export default class Bill extends BaseModel {
   @column({ isPrimary: true })
@@ -28,4 +29,14 @@ export default class Bill extends BaseModel {
     foreignKey: "payment_id",
   })
   public payment: BelongsTo<typeof Payment>;
+
+  @belongsTo(() => Spent, {
+    //nombre de la clave foranea que permite la relacion bidireccional 1:1  en este caso viene de quota
+    foreignKey: "spent_id",
+  })
+  public spent: BelongsTo<typeof Spent>
+  
 }
+
+
+

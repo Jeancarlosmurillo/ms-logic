@@ -1,6 +1,8 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Bill from 'App/Models/Bill';
 import BillValidator from 'App/Validators/BillValidator';
+// import Env from "@ioc:Adonis/Core/Env";
+// import axios from "axios";
 
 export default class BillsController {
 
@@ -25,6 +27,15 @@ export default class BillsController {
         return theBill;
       }
 
+      // Crear factura con el microservicio de pagos 
+public async createPay({ request }: HttpContextContract) {
+  await request.validate(BillValidator);
+  const body = request.body();
+  const theBill: Bill = await Bill.create(body);
+  await theBill.load("payment");
+  return theBill;
+}
+
       public async update({ params, request }: HttpContextContract) {   
         const theBill: Bill = await Bill.findOrFail(params.id);  //busque el teatro con el identificador
         const body = request.body(); //leer lo que viene en la carta
@@ -38,6 +49,6 @@ export default class BillsController {
       public async delete({ params, response }: HttpContextContract) {  //
         const theBill: Bill = await Bill.findOrFail(params.id); //buscarlo
         response.status(204);
-        return await theBill.delete(); //el teatro que se encontro, eliminelo
+        return await theBill.delete(); 
       }
 }
