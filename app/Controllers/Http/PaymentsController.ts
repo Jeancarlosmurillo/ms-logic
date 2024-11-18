@@ -36,5 +36,5 @@ export default class PaymentsController {
         const thePayment: Payment = await Payment.findOrFail(params.id); //buscarlo
         response.status(204);
         return await thePayment.delete(); //el teatro que se encontro, eliminelo
-      }
+    }
 }

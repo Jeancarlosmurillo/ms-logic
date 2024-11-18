@@ -5,4 +5,4 @@ Route.group(() => {
   Route.post("/tranches", "TranchesController.create"); //crearlos
   Route.put("/tranches/:id", "TranchesController.update"); //actualizar recibe id
   Route.delete("/tranches/:id", "TranchesController.delete"); //borrar, recibe id
-});
+}).middleware(['security']);

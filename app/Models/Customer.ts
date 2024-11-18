@@ -21,6 +21,7 @@ export default class Customer extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
 
+ 
  //Relacion de 1 a N
  @hasMany(() => Product, {
   foreignKey: "customer_id", //Clave foránea que relaciona la identidad dominada
@@ -40,7 +41,7 @@ public companies: BelongsTo<typeof Company>;
 
 //Relacion de 1 a 1 
 @belongsTo(() => NaturalPerson, {
-  foreignKey: "person_id}", //Clave foránea que relaciona la identidad dominada
+  foreignKey: "person_id", //Clave foránea que relaciona la identidad dominada
 })
 public NaturalPerson: BelongsTo<typeof NaturalPerson>;
 

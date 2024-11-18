@@ -29,7 +29,7 @@ export default class CustomerValidator {
       rules.unsigned(), // Debe ser un número positivo
     ]),
     person_id: schema.number.optional([
-      rules.exists({ table: 'persons', column: 'id' }), // Verifica que la persona exista
+      rules.exists({ table: 'natural_people', column: 'id' }), // Verifica que la persona exista
       rules.unsigned(), // Debe ser un número positivo
     ]),
   })

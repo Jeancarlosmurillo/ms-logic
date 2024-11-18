@@ -13,7 +13,7 @@ export default class Security {
       method: theRequest.method
     }
     try {
-      const result = await axios.post(`${Env.get('MS_SECURITY')}/api/public/security/permissions-validation`, thePermission, //pide permiso si puede ingresar o no a ms-segiridad, es por eso que inyectamos el endpoint en ms-seguridad (le pide el de "negocio" a seguridad si puede ingresar a las peliculas)
+      const result = await axios.post(`${Env.get('proyecto-prog-3')}/api/public/security/permissions-validation`, thePermission, //pide permiso si puede ingresar o no a ms-segiridad, es por eso que inyectamos el endpoint en ms-seguridad (le pide el de "negocio" a seguridad si puede ingresar a las peliculas)
         {
           headers: {
             Authorization: `Bearer ${token}`

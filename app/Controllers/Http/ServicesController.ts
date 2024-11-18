@@ -42,7 +42,7 @@ export default class ServicesController {
         theService.date_service = body.date_service
         theService.contract_id = body.contract_id;
         theService.administrator_id = body.administrator_id
-        theService.tranches_id = body.traches_id;
+        theService.tranch_id = body.trach_id;
         return await theService.save();
     }
 
