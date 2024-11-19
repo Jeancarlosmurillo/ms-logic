@@ -16,7 +16,7 @@ export default class AddressesController {
                 const perPage = request.input("per_page", 20); // Lista los primeros 20
                 return await Address.query().paginate(page, perPage)
             } else {
-                return await Address.query()
+                return await Address.query().preload('municipality')
             } 
 
         }

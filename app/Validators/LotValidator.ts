@@ -10,7 +10,8 @@ export default class LotValidator {
     ]),
     quantity_kg: schema.number([
       rules.range(1, 100000000)
-    ])
+    ]),
+    route_id: schema.number([rules.exists({ table: 'routes', column: 'id' })]) // Verifica que la ruta existe
   })
 
   public messages: CustomMessages = {

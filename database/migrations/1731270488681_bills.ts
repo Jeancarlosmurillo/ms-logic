@@ -6,7 +6,13 @@ export default class extends BaseSchema {
   public async up () {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
-
+      table.dateTime('date_bill')
+      table.integer('total_amount')
+      table.string('state')
+      table.integer('quotas')
+      table.integer('payment_id').unsigned().references('payments.id').onDelete('CASCADE')
+      table.integer('spent_id').unsigned().references('spents.id').onDelete('CASCADE')
+      
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
        */
@@ -19,3 +25,6 @@ export default class extends BaseSchema {
     this.schema.dropTable(this.tableName)
   }
 }
+
+
+// necesito saber cuanta plata ha pagado el dueño del carro que mas veces se ha equivocado iniciando sesion 

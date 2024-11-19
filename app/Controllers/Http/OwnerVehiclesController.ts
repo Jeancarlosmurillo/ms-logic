@@ -6,7 +6,7 @@ export default class OwnerVehiclesController {
     public async find({ request, params }: HttpContextContract) {
         if (params.id) {
             let theOwnerVehicle: OwnerVehicle = await OwnerVehicle.findOrFail(params.id)
-            await theOwnerVehicle.load("owner");
+            await theOwnerVehicle.load("owner",(Owner)=>{Owner.preload('user')});
             await theOwnerVehicle.load("vehicle");
             return theOwnerVehicle; //Visualizar un solo elemento 
         } else {
@@ -14,9 +14,9 @@ export default class OwnerVehiclesController {
             if ("page" in data && "per_page" in data) {
                 const page = request.input('page', 1); // Paginas 
                 const perPage = request.input("per_page", 20); //Lista los primeros 20
-                return await OwnerVehicle.query().preload('owner').preload('vehicle').paginate(page, perPage)
+                return await OwnerVehicle.query().preload('owner', (Owner)=>{Owner.preload('user')}).preload('vehicle').paginate(page, perPage)
             } else {
-                return await OwnerVehicle.query().preload('owner').preload('vehicle')
+                return await OwnerVehicle.query().preload('owner', (Owner)=>{Owner.preload('user')}).preload('vehicle')
             } //Devuelve todos los elementos 
 
         }
@@ -26,7 +26,7 @@ export default class OwnerVehiclesController {
         await request.validate(OwnerVehicleValidator) //Validador
         const body = request.body();
         const theOwnerVehicle: OwnerVehicle = await OwnerVehicle.create(body);
-        await theOwnerVehicle.load("owner")
+        await theOwnerVehicle.load("owner", (Owner)=>{Owner.preload('user')})
         await theOwnerVehicle.load("vehicle")
         return theOwnerVehicle;
     }

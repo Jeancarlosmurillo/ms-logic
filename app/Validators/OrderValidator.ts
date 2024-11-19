@@ -5,9 +5,7 @@ export default class OrderValidator {
   constructor(protected ctx: HttpContextContract) {}
 
   public schema = schema.create({
-    type: schema.enum(['Recogida','Transferencia','Entrega parcial', 'Entrega final'], [
-      rules.maxLength(20), // Limita el tipo a 20 caracteres
-    ]),
+    type: schema.enum(['Recogida','Transferencia','Entrega parcial', 'Entrega final']),
     date_order: schema.date( { format: 'yyyy-MM-dd' }, [
       //rules.beforeOrEqual('today'), // La fecha de la orden debe ser hoy o en el pasado
     ]),

@@ -7,14 +7,14 @@ export default class ShiftsController {
     public async find({ request, params }: HttpContextContract) {
         if (params.id) {
             let theShift: Shift = await Shift.findOrFail(params.id)
-            await theShift.load('driver')
+            await theShift.load('driver',(Driver)=>{Driver.preload('user')})
             return theShift; //Visualizar un solo elemento 
         } else {
             const data = request.all()
             if ("page" in data && "per_page" in data) {
                 const page = request.input('page', 1); // Paginas 
                 const perPage = request.input("per_page", 20); //Lista los primeros 20
-                return await Shift.query().paginate(page, perPage)
+                return await Shift.query().preload('driver',(Driver)=>{Driver.preload('user')}).paginate(page, perPage)
             } else {
                 return await Shift.query()
             } //Devuelve todos los elementos 
@@ -26,6 +26,7 @@ export default class ShiftsController {
         await request.validate(ShiftValidator) //Validador
         const body = request.body();
         const theShift: Shift = await Shift.create(body);
+        await theShift.load('driver',(Driver)=>{Driver.preload('user')})
         return theShift;
     }
 
