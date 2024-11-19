@@ -36,7 +36,7 @@ export default class Contract extends BaseModel {
 
   @hasMany (()=> Payment,{
     // nombre de la clave foranea
-    foreignKey:'payment_id'
+    foreignKey:'contract_id'
   })
 
   public payment: HasMany<typeof Payment>

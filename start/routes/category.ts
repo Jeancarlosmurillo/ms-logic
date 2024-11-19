@@ -5,4 +5,4 @@ Route.group(() => {
   Route.post("/categories", "CategoriesController.create"); //crearlos
   Route.put("/categories/:id", "CategoriesController.update"); //actualizar recibe id
   Route.delete("/categories/:id", "CategoriesController.delete"); //borrar, recibe id
-});
+}).middleware(['security']);
