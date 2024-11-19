@@ -1,5 +1,7 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import Database from '@ioc:Adonis/Lucid/Database';
 import Tranch from 'App/Models/Tranch';
+import NotificationService from 'App/Services/NotificationServices';
 //import RouteValidator from 'App/Validators/RouteValidator';
 
 export default class RoutesController {
@@ -23,10 +25,52 @@ export default class RoutesController {
         }
 
     }
-    public async create({ request }: HttpContextContract) {
+    public async create({ request, response }: HttpContextContract) {
        // await request.validate(TranchValidator) //Validador
         const body = request.body();
         const theTranch: Tranch = await Tranch.create(body);
+
+        try {
+            // Consulta para obtener los datos necesarios
+            const result = await Database
+            .from('tranches')
+            .innerJoin('routes','tranches.route_id', 'routes.id')
+            .innerJoin('contracts', 'routes.contract_id', 'contracts.id')
+            .innerJoin('customers', 'contracts.customer_id', 'customers.id')
+            .leftJoin('natural_people', 'customers.person_id', 'natural_people.id')
+            .leftJoin('companies', 'customers.company_id', 'companies.id')
+            .leftJoin('natural_people AS company_person', 'companies.person_id', 'company_person.id')
+            .leftJoin('users', (query) => {
+                query
+                    .on('natural_people.user_id', 'users.id')
+                    .orOn('company_person.user_id', 'users.id');
+            })
+            .innerJoin('distribution_centres AS origin_centre', 'tranches.origin', 'origin_centre.id')
+            .innerJoin('municipalities AS origin_municipality', 'origin_centre.municipality_id', 'origin_municipality.id')
+            .innerJoin('distribution_centres AS destination_centre', 'tranches.destination', 'destination_centre.id')
+            .innerJoin('municipalities AS destination_municipality', 'destination_centre.municipality_id', 'destination_municipality.id')
+            .select(
+            'users.email AS user_email',
+            'origin_municipality.name_municipality AS origin',
+            'destination_municipality.name_municipality AS destination'
+        )
+                .first(); // Obtener solo el primer resultado
+                if (!result) {
+                    return response.status(400).send({ error: 'Datos del contrato no encontrados' });
+                }
+        
+            await NotificationService.send_tranch (
+                result.user_email,
+                theTranch.route_id,
+                theTranch.start_date,
+                theTranch.end_date ,
+                result.origin,
+                result.destination,
+            );
+        }catch (error) {
+            console.error('Error al procesar la notificación:', error);
+            return response.status(500).send({ error: 'Error al enviar la notificación' });
+          }
         await theTranch.load("distribution_centre_origin")
         await theTranch.load("distribution_centre_destination")
         return theTranch;
