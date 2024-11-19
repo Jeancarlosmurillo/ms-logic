@@ -1,5 +1,7 @@
  import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import Database from '@ioc:Adonis/Lucid/Database';
 import Order from 'App/Models/Order';
+import NotificationService from 'App/Services/NotificationServices';
 import OrderValidator from 'App/Validators/OrderValidator';
 
 export default class OrdersController {
@@ -21,10 +23,54 @@ export default class OrdersController {
             } //Devuelve todos los elementos 
         }
     }
-    public async create({ request }: HttpContextContract) {
+    public async create({ request, response }: HttpContextContract) {
         await request.validate(OrderValidator) //Validador
         const body = request.body();
         const theOrder: Order = await Order.create(body);
+        await theOrder.load('address');
+
+        try {
+            // Consulta para obtener los datos necesarios
+            const result = await Database
+            .from('orders')
+            .innerJoin('contracts', 'orders.contract_id', 'contracts.id')
+            .innerJoin('customers', 'contracts.customer_id', 'customers.id')
+            .leftJoin('natural_people', 'customers.person_id', 'natural_people.id')
+            .leftJoin('companies', 'customers.company_id', 'companies.id')
+            .leftJoin('natural_people AS company_person', 'companies.person_id', 'company_person.id')
+            .leftJoin('users', (query) => {
+                query
+                    .on('natural_people.user_id', 'users.id')
+                    .orOn('company_person.user_id', 'users.id');
+            })
+            .innerJoin('addresses', 'orders.address_id', 'addresses.id')
+            .innerJoin('municipalities', 'addresses.municipality_id', 'municipalities.id')
+            .innerJoin('departaments', 'municipalities.departament_id', 'departaments.id')
+            .select('users.email AS user_email','addresses.street AS direction','municipalities.name_municipality','departaments.name_departament')
+                .where('orders.id', theOrder.id) // Filtrar por el ID de la orden creada
+                .first(); // Obtener solo el primer resultado
+                if (!result || !result.direction || !result.name_municipality || !result.name_departament) {
+                    return response.status(400).send({ error: 'Datos incompletos en el contrato o dirección' });
+                }
+                console.log('Resultado de la consulta:', result);
+    
+        
+            await NotificationService.send_order(
+                result.user_email,
+                theOrder.route_id,
+                theOrder.contract_id,
+                theOrder.date_order,
+                theOrder.type,
+                result.direction,
+                result.name_municipality, 
+                result.name_departament
+            );
+        }catch (error) {
+            console.error('Error al procesar la notificación:', error);
+            return response.status(500).send({ error: 'Error al enviar la notificación' });
+          }
+          
+
         await theOrder.load('address');
         await theOrder.load('lot');
         await theOrder.load("contract");
