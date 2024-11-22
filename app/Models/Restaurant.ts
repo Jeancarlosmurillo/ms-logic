@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column, HasOne, hasOne } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column, HasMany, hasMany, HasOne, hasOne } from '@ioc:Adonis/Lucid/Orm'
 import TravelExpense from './TravelExpense'
+import RestaurantPlate from './RestaurantPlate'
 
 export default class Restaurant extends BaseModel {
   @column({ isPrimary: true })
@@ -20,4 +21,10 @@ export default class Restaurant extends BaseModel {
   })
 
   public travel_expenses: HasOne<typeof TravelExpense>
+
+  @hasMany (()=>RestaurantPlate,{
+    // nombre de la clave foranea
+    foreignKey:'restaurant_id'
+  })
+  public restaurant: HasMany<typeof RestaurantPlate>
 }

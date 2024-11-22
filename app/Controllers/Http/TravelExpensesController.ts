@@ -39,6 +39,7 @@ export default class TravelExpensesController {
         theTravelExpense.amount_restaurant = body.amount_restaurant;
         theTravelExpense.date_service_hotel = body.date_service_hotel;
         theTravelExpense.date_service_restaurant = body.date_service_restaurant;
+        theTravelExpense.administrator_id = body.administrator_id;
         return await theTravelExpense.save();
     }
 

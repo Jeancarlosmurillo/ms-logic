@@ -58,7 +58,23 @@ class NotificationService {
             throw new Error('Failed to send notification'); // Lanza un error si falla
         }
     }
-
+    public static async send_plate(recipient: string, nameR: number, plateid: number, description: string, Price: number): Promise<void> {
+        const notificationUrl = process.env.notification_service_url ;
+        const emailData = {
+            recipient, // Dirección de correo electrónico
+            nameR,
+            plateid,
+            description,
+            Price
+        };
+        try {
+            await axios.post(`${notificationUrl}tranch`, emailData);
+            console.log('Correo enviado correctamente');
+        } catch (error) {
+            console.error('Error al enviar el correo:', error.message);
+            throw new Error('Failed to send notification'); // Lanza un error si falla
+        }
+    }
 }
 
 
