@@ -1,9 +1,10 @@
 import { DateTime } from 'luxon'
-import { BaseModel, BelongsTo, belongsTo, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, BelongsTo, belongsTo, column,  } from '@ioc:Adonis/Lucid/Orm'
 import Address from './Address'
 import Route from './Route'
 import Lot from './Lot'
 import Contract from './Contract'
+
 
 export default class Order extends BaseModel {
   @column({ isPrimary: true })
@@ -56,4 +57,6 @@ export default class Order extends BaseModel {
   })
 
   public contract : BelongsTo<typeof Contract>
+
+
 }

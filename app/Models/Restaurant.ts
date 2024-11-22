@@ -2,6 +2,7 @@ import { DateTime } from 'luxon'
 import { BaseModel, column, HasOne, hasOne } from '@ioc:Adonis/Lucid/Orm'
 import TravelExpense from './TravelExpense'
 
+
 export default class Restaurant extends BaseModel {
   @column({ isPrimary: true })
   public id: number
@@ -20,4 +21,7 @@ export default class Restaurant extends BaseModel {
   })
 
   public travel_expenses: HasOne<typeof TravelExpense>
+
+ 
+
 }
