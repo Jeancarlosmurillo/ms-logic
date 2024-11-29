@@ -12,6 +12,7 @@ export default class extends BaseSchema {
       table.float("amount_hotel")
       table.date("date_service_restaurant")
       table.date("date_service_hotel")
+      table.integer('administrator_id').unsigned().references("administrators.id").onDelete("CASCADE")
 
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL

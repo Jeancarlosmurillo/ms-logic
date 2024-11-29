@@ -22,7 +22,12 @@ export default class TravelExpenseValidator {
     }),
     date_service_hotel: schema.date({
       format: 'yyyy-MM-dd HH:mm:ss'
-    })
+    }),
+
+    administrator_id: schema.number([
+      rules.exists({ table: 'administrators', column: 'id' }), // Verifica que el administrador exista
+      rules.unsigned(), // Asegura que el ID sea positivo
+    ])
   })
 
   public messages: CustomMessages = {

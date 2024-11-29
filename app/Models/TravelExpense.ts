@@ -3,6 +3,7 @@ import { BaseModel, BelongsTo, belongsTo, column, HasMany, hasMany } from '@ioc:
 import Restaurant from './Restaurant'
 import Hotel from './Hotel'
 import Spent from './Spent'
+import Administrator from './Administrator'
 
 export default class TravelExpense extends BaseModel {
   @column({ isPrimary: true })
@@ -26,6 +27,9 @@ export default class TravelExpense extends BaseModel {
   @column()
   public date_service_hotel: Date
 
+  @column()
+  public administrator_id: number
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 
@@ -37,6 +41,12 @@ export default class TravelExpense extends BaseModel {
   })
 
   public restaurant: BelongsTo<typeof Restaurant>
+
+  @belongsTo(()=> Administrator, { 
+    foreignKey:"administrator_id" //administrator_id es llave foranea de administrador
+  })
+
+  public administrator : BelongsTo<typeof Administrator>
 
   @belongsTo(() => Hotel,{
     foreignKey:"hotel_id"
