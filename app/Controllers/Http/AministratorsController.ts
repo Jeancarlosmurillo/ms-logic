@@ -5,6 +5,7 @@ import Administrator from 'App/Models/Administrator';
 import UserService from 'App/Services/user_service';
 import  AdministratorValidator  from 'App/Validators/AdministratorValidator';
 
+
 inject([UserService])
 export default class AministratorsController {
     constructor(protected userService: UserService) { }
@@ -46,8 +47,10 @@ export default class AministratorsController {
       
           return administrators;
         }
+
     public async create({ request, response }: HttpContextContract) {
         const body = await request.validate(AdministratorValidator);
+        
         let user
         try{
             user = await this.userService.getUserById(body.user_id.toString())

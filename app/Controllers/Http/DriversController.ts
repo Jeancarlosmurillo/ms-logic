@@ -1,19 +1,19 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Driver from 'App/Models/Driver';
 import DriverValidator from 'App/Validators/DriverValidator';
+//import DriverValidator from 'App/Validators/DriverValidator';
 
 export default class DriversController {
     public async find({ request, params }: HttpContextContract) {
         if (params.id) {
             let theDriver: Driver = await Driver.findOrFail(params.id)
-            await theDriver.load('user')
             return theDriver; //Visualizar un solo elemento 
         } else {
             const data = request.all()
             if ("page" in data && "per_page" in data) {
                 const page = request.input('page', 1); // Paginas 
                 const perPage = request.input("per_page", 20); //Lista los primeros 20
-                return await Driver.query().preload('user').paginate(page, perPage)
+                return await Driver.query().paginate(page, perPage)
             } else {
                 return await Driver.query()
             } //Devuelve todos los elementos 
@@ -25,9 +25,8 @@ export default class DriversController {
         await request.validate(DriverValidator) //Validador
         const body = request.body();
         const theDriver: Driver = await Driver.create(body);
-        await theDriver.load('user')
         return theDriver;
-    }
+    } 
 
     public async update({ params, request }: HttpContextContract) {
         await request.validate(DriverValidator) //Validador
@@ -45,3 +44,4 @@ export default class DriversController {
             return await theDriver.delete();
     }
 }
+

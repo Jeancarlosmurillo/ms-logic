@@ -2,7 +2,7 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import VehiclesDriver from 'App/Models/VehiclesDriver';
 import VehiclesDriverValidator from 'App/Validators/VehiclesDriverValidator';
 
-export default class VehiclesDriversController {
+/*export default class VehiclesDriversController {
     public async find({ request, params }: HttpContextContract) {
         if (params.id) {
             let theVehiclesDriver: VehiclesDriver = await VehiclesDriver.findOrFail(params.id)
@@ -48,3 +48,4 @@ export default class VehiclesDriversController {
     }
 
 }
+*/

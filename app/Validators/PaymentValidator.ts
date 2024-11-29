@@ -6,7 +6,7 @@ export default class PaymentValidator {
 
   public schema = schema.create({
     payment_date: schema.date({
-      format: 'dd-MM-yyyy',
+      format: 'dd-MM-yyyy HH:mm:ss',
     }),
     contract_id: schema.number([
       rules.exists({ table: 'contracts', column: 'id' })

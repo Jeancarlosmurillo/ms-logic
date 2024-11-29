@@ -4,7 +4,7 @@ import Order from 'App/Models/Order';
 import NotificationService from 'App/Services/NotificationServices';
 import OrderValidator from 'App/Validators/OrderValidator';
 
-export default class OrdersController {
+/*export default class OrdersController {
     public async find({ request, params }: HttpContextContract) {
         if (params.id) {
             let theOrder: Order = await Order.findOrFail(params.id)
@@ -96,3 +96,4 @@ export default class OrdersController {
     }
 
 }
+*/
