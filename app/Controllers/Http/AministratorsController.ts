@@ -51,7 +51,7 @@ export default class AministratorsController {
     public async create({ request, response }: HttpContextContract) {
         const body = await request.validate(AdministratorValidator);
         
-        let user
+        let user: any;
         try{
             user = await this.userService.getUserById(body.user_id.toString())
         }catch (error) {
