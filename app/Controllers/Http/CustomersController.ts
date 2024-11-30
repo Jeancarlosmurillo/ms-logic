@@ -5,7 +5,7 @@ import Customer from 'App/Models/Customer';
 // import Env from "@ioc:Adonis/Core/Env";
 import CustomerValidator from 'App/Validators/CustomerValidator';
 
-export default class CustomersController {
+/*export default class CustomersController {
     public async find({ request, params }: HttpContextContract) {
         try {
             if (params.id) {
@@ -23,7 +23,7 @@ export default class CustomersController {
                         "No se encontró información del usuario en el sistema",
                         404
                     );
-                } return { custromer: theCustomer, usuario: userResponse.data };*/
+                } return { custromer: theCustomer, usuario: userResponse.data };
             } else {
                 const data = request.all();
                 if ("page" in data && "per_page" in data) {
@@ -46,7 +46,7 @@ public async create({ request, response }: HttpContextContract) {
     //try {
         // Validar datos usando el ClienteValidator
         const body = request.body();
-        /*// Llamada al MS_SECURITY para validar al usuario
+        / Llamada al MS_SECURITY para validar al usuario
         const userResponse = await axios.get(
             `${Env.get("proyecto-prog-3")}/users/${body.user_id}`, // cambiar 
             {
@@ -60,7 +60,7 @@ public async create({ request, response }: HttpContextContract) {
                     "No se encontró información del usuario, verifique que el id sea correcto",
             });
         }
-        // Crear el driver si la validación y la verificación de usuario son exitosas*/
+        // Crear el driver si la validación y la verificación de usuario son exitosas
         await request.validate(CustomerValidator);
         const theCustomer: Customer = await Customer.create(body);
         return theCustomer;
@@ -75,7 +75,7 @@ public async create({ request, response }: HttpContextContract) {
             error.status || 500
         );
     }
-}*/
+}
     public async update({ params, request }: HttpContextContract) {
     const theCustomer: Customer = await Customer.findOrFail(params.id);
     const body = request.body();
@@ -93,3 +93,4 @@ public async delete({ params, response }: HttpContextContract) {
 }
 
 }
+*/

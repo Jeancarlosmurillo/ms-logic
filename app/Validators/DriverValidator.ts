@@ -11,10 +11,7 @@ export default class DriverValidator {
   ]),
   license_type: schema.enum(['B1', 'B2', 'B3','C1','C2','C3']),
 
-  user_id: schema.number([
-    rules.exists({ table: 'users', column: 'id' }), // Verifica que el usuario exista en la tabla `users`
-    rules.unsigned(), // El ID de usuario debe ser un número positivo
-  ]),
+  user_id: schema.string()
 })
 
 public messages:CustomMessages = {
@@ -24,6 +21,7 @@ public messages:CustomMessages = {
   'license_type.enum': 'El tipo de licencia es obligatorio',
   'license_type.maxLength': 'El tipo de licencia es incorrecto',
   'user_id.required': 'El ID de usuario es obligatorio',
-  'user_id.exists': 'El usuario especificado no existe',
-  'user_id.unsigned': 'El ID de usuario debe ser un número positivo',}
+  'user_id.string': 'El usuario debe de ser un string',
+  }
 }
+

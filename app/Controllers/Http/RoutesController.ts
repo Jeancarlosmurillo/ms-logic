@@ -2,7 +2,7 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Route from 'App/Models/Route';
 import RouteValidator from 'App/Validators/RouteValidator';
 
-export default class RoutesController {
+/*export default class RoutesController {
     
     public async find({ request, params }: HttpContextContract) {
         if (params.id) {
@@ -54,3 +54,4 @@ export default class RoutesController {
             return await theRoute.delete();
     }
 }
+*/

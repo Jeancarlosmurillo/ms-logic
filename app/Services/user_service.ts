@@ -3,7 +3,7 @@ import TokenContext from "App/Utils/TokenContext";
 import axios from "axios";
 
 export default class UserService {
-  
+
   baseUrl: string;
   headers: object;
   constructor() {
@@ -15,6 +15,10 @@ export default class UserService {
 
   async getUserById(id: string): Promise<any> {
     return axios.get(`${this.baseUrl}/${id}`, { headers: this.headers });
+  }
+
+  async getUsers(): Promise<any> {
+    return axios.get(this.baseUrl, { headers: this.headers });
   }
 
   async postUser(user: any): Promise<any> {

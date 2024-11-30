@@ -5,7 +5,7 @@ import Contract from "App/Models/Contract";
 import NotificationService from 'App/Services/NotificationServices';
 import ContractValidator from 'App/Validators/ContractValidator';
 
-export default class ContractsController {
+/*export default class ContractsController {
 
         public async find({ request, params }: HttpContextContract) {
             if (params.id) {
@@ -100,3 +100,4 @@ export default class ContractsController {
         }
     
 }
+        */

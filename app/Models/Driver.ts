@@ -1,6 +1,5 @@
 import { DateTime } from 'luxon'
-import { BaseModel, BelongsTo, belongsTo, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
-import User from './User'
+import { BaseModel, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
 import Shift from './Shift'
 import VehiclesDriver from './VehiclesDriver'
 import Spent from './Spent'
@@ -16,19 +15,13 @@ export default class Driver extends BaseModel {
   public license_type:string
 
   @column()
-  public user_id:number
+  public user_id:string
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
-
-  @belongsTo(() => User,{
-    foreignKey:"user_id"
-  })
-
-  public user: BelongsTo<typeof User>
 
   @hasMany(() => Shift,{
     foreignKey:"driver_id"

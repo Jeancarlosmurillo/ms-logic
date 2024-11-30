@@ -5,7 +5,7 @@ import NotificationService from 'App/Services/NotificationServices';
 import RestaurantPlateValidator from 'App/Validators/RestaurantPlateValidator';
 import { DateTime } from 'luxon';
 
-export default class RestaurantPlatePlatesController {
+/*export default class RestaurantPlatePlatesController {
     public async find({ request, params }: HttpContextContract) {
         if (params.id) {
             let theRestaurantPlate: RestaurantPlate = await RestaurantPlate.findOrFail(params.id)
@@ -64,3 +64,4 @@ export default class RestaurantPlatePlatesController {
         return theRestaurantPlate;
     }
 }
+*/

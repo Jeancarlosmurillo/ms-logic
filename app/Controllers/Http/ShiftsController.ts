@@ -4,7 +4,7 @@ import ShiftValidator from 'App/Validators/ShiftValidator';
 
 export default class ShiftsController {
 
-    public async find({ request, params }: HttpContextContract) {
+    /*public async find({ request, params }: HttpContextContract) {
         if (params.id) {
             let theShift: Shift = await Shift.findOrFail(params.id)
             await theShift.load('driver',(Driver)=>{Driver.preload('user')})
@@ -28,7 +28,7 @@ export default class ShiftsController {
         const theShift: Shift = await Shift.create(body);
         await theShift.load('driver',(Driver)=>{Driver.preload('user')})
         return theShift;
-    }
+    }*/
 
     public async update({ params, request }: HttpContextContract) {
         await request.validate(ShiftValidator) //Validador

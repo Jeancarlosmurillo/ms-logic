@@ -6,16 +6,15 @@ export default class OwnersController {
     public async find({ request, params }: HttpContextContract) {
         if (params.id) {
             let theOwner: Owner = await Owner.findOrFail(params.id)
-            await theOwner.load("user");
             return theOwner; //Visualizar un solo elemento 
         } else {
             const data = request.all()
             if ("page" in data && "per_page" in data) {
                 const page = request.input('page', 1); // Paginas 
                 const perPage = request.input("per_page", 20); //Lista los primeros 20
-                return await Owner.query().preload('user').paginate(page, perPage)
+                return await Owner.query().paginate(page, perPage)
             } else {
-                return await Owner.query().preload('user')
+                return await Owner.query()
             } //Devuelve todos los elementos 
 
         }
@@ -25,7 +24,6 @@ export default class OwnersController {
         await request.validate(OwnerValidator) //Validador
         const body = request.body();
         const theOwner: Owner = await Owner.create(body);
-        await theOwner.load("user")
         return theOwner;
     }
 

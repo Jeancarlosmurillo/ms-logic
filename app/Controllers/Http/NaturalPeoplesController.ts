@@ -7,7 +7,6 @@ export default class NaturalPeopleController {
     public async find({ request, params }: HttpContextContract) {
         if (params.id) {
             let theNaturalPerson: NaturalPerson = await NaturalPerson.findOrFail(params.id)
-            await theNaturalPerson.load('user');
             return theNaturalPerson;
         } else {
             const data = request.all()
@@ -25,7 +24,6 @@ export default class NaturalPeopleController {
         await request.validate(NaturalPersonValidator);
         const body = request.body();
         const theNaturalPerson: NaturalPerson = await NaturalPerson.create(body);
-        await theNaturalPerson.load('user');
         return theNaturalPerson;
     }
 

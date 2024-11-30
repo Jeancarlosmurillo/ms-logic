@@ -8,8 +8,91 @@ import AdministratorValidator from "App/Validators/AdministratorValidator";
 @inject()
 export default class AministratorsController {
   constructor(protected userService: UserService) {}
-  public async find({ request, params }: HttpContextContract) {
-    const { page, per_page } = request.only(["page", "per_page"]);
+  public async find({ request, params, response }: HttpContextContract) {
+    if (params.id) {
+      let administrator: Administrator = await Administrator.findOrFail(
+        params.id
+      );
+      //se debe buscar el usuario al ms-seguridad y retornar el usuario con el administrador
+      let user = await this.userService.getUserById(administrator.user_id);
+      console.log("user", user.data);
+      console.log("administrator", administrator.$attributes);
+      let respuesta = { ...administrator.$attributes, ...user.data };
+      return response.status(200).send(respuesta);
+    } else {
+      const data = request.all();
+      if ("page" in data && "per_page" in data) {
+        const page = request.input("page", 1); // Paginas
+        const perPage = request.input("per_page", 20); // Lista los primeros 20
+        return await Administrator.query().paginate(page, perPage);
+      } else {
+        return await Administrator.query();
+      }
+    }
+  }
+
+  public async create({ request, response }: HttpContextContract) {
+    const body = await request.validate(AdministratorValidator);
+
+    const { name, email, password } = body;
+    let user = {
+      name: name,
+      email: email,
+      password: password,
+    };
+    let mensaje = {};
+    try {
+      let respuesta = await this.userService.postUser(user);
+      let usuarioCreado = respuesta.data;
+      let administrator: ModelObject = { user_id: usuarioCreado._id };
+      const administrador_creado = await Administrator.create(administrator);
+      mensaje = {
+        message: "Administrator created successfully",
+        data: administrador_creado,
+      };
+    } catch (error) {
+      console.log("error", error);
+      return response.status(400).send({ message: "User not found" });
+    }
+
+    return response.status(201).send(mensaje);
+  }
+
+  public async update({ params, request, response }: HttpContextContract) {
+    const theAdAdministrator: Administrator = await Administrator.findOrFail(
+      params.id
+    );
+    const body = request.body();
+    try {
+      if (body.name && body.email) {
+        const user = { name: body.name, email: body.email };
+        await this.userService.putUser(theAdAdministrator.user_id, user);
+      }
+    } catch (error) {
+      return response
+        .status(400)
+        .send({ message: "User not found or failed to update user" });
+    }
+    let newAdministrator: ModelObject = {};
+    Object.keys(body).forEach(
+      (key) =>
+        Administrator.$hasColumn(key) && (newAdministrator[key] = body[key])
+    );
+    theAdAdministrator.merge(newAdministrator);
+    return await theAdAdministrator.save();
+  }
+
+  public async delete({ params, response }: HttpContextContract) {
+    const theAdAdministrator: Administrator = await Administrator.findOrFail(
+      params.id
+    );
+    response.status(204);
+    return await theAdAdministrator.delete();
+  }
+}
+
+/*
+const { page, per_page } = request.only(["page", "per_page"]);
     const administrators: ModelObject[] = [];
     const metaAux: ModelObject[] = [];
 
@@ -48,59 +131,4 @@ export default class AministratorsController {
       return { meta: metaAux, data: administrators };
     }
 
-    return administrators;
-  }
-  public async create({ request, response }: HttpContextContract) {
-    const body = await request.validate(AdministratorValidator);
-    const { name, email, password } = body;
-    let user = {
-      name: name,
-      email: email,
-      password: password,
-    };
-    try {
-      let respuesta = await this.userService.postUser(user);
-      let usuarioCreado = respuesta.data;
-      let administrator: ModelObject = { user_id: usuarioCreado._id };
-      console.log("usuarioCreado", usuarioCreado);
-      console.log("administrator", administrator);
-    } catch (error) {
-      console.log("error", error);
-      return response.status(400).send({ message: "User not found" });
-    }
-
-    return { message: "Administrator created successfully" };
-  }
-
-  public async update({ params, request, response }: HttpContextContract) {
-    const theAdAdministrator: Administrator = await Administrator.findOrFail(
-      params.id
-    );
-    const body = request.body();
-    try {
-      if (body.name && body.email) {
-        const user = { name: body.name, email: body.email };
-        await this.userService.putUser(theAdAdministrator.user_id, user);
-      }
-    } catch (error) {
-      return response
-        .status(400)
-        .send({ message: "User not found or failed to update user" });
-    }
-    let newAdministrator: ModelObject = {};
-    Object.keys(body).forEach(
-      (key) =>
-        Administrator.$hasColumn(key) && (newAdministrator[key] = body[key])
-    );
-    theAdAdministrator.merge(newAdministrator);
-    return await theAdAdministrator.save();
-  }
-
-  public async delete({ params, response }: HttpContextContract) {
-    const theAdAdministrator: Administrator = await Administrator.findOrFail(
-      params.id
-    );
-    response.status(204);
-    return await theAdAdministrator.delete();
-  }
-}
+ */

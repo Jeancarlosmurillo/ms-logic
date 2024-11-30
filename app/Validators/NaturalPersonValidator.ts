@@ -1,4 +1,4 @@
-import { schema, CustomMessages, rules } from '@ioc:Adonis/Core/Validator'
+import { schema, CustomMessages } from '@ioc:Adonis/Core/Validator'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 export default class NaturalPersonValidator {
@@ -24,10 +24,7 @@ export default class NaturalPersonValidator {
    *    ```
    */
   public schema = schema.create({
-    user_id: schema.number([
-      rules.exists({ table: 'users', column: 'id' }), // Verifica que el usuario exista en la tabla `users`
-      rules.unsigned(), // El ID de usuario debe ser un número positivo
-    ]),
+    user_id: schema.string()
   })
   
   public messages: CustomMessages = {}
