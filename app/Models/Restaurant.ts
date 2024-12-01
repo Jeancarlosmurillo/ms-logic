@@ -3,6 +3,7 @@ import { BaseModel, column, HasMany, hasMany, HasOne, hasOne } from '@ioc:Adonis
 import TravelExpense from './TravelExpense'
 import RestaurantPlate from './RestaurantPlate'
 
+
 export default class Restaurant extends BaseModel {
   @column({ isPrimary: true })
   public id: number
@@ -22,9 +23,6 @@ export default class Restaurant extends BaseModel {
 
   public travel_expenses: HasOne<typeof TravelExpense>
 
-  @hasMany (()=>RestaurantPlate,{
-    // nombre de la clave foranea
-    foreignKey:'restaurant_id'
-  })
-  public restaurant: HasMany<typeof RestaurantPlate>
+ 
+
 }

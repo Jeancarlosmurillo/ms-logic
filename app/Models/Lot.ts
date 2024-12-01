@@ -17,6 +17,9 @@ export default class Lot extends BaseModel {
   @column()
   public route_id:number
 
+  @column()
+  public order_id:number
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 
@@ -33,11 +36,10 @@ export default class Lot extends BaseModel {
   })
   public route: BelongsTo<typeof Route>
 
- @hasOne(()=> Order,{
-    foreignKey: 'lot_id'
+  @belongsTo(()=> Order,{
+    foreignKey:'order_id'
   })
-  public order: HasOne<typeof Order>
-
+  public order : BelongsTo<typeof Order>
 }
 
 

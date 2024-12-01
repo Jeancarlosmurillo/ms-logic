@@ -9,6 +9,7 @@ export default class extends BaseSchema {
       table.integer('weight')
       table.integer('quantity_kg')
       table.integer('route_id').unsigned().references("routes.id").onDelete("CASCADE")
+      table.integer('order_id').unsigned().references("orders.id").onDelete("CASCADE")
       
 
       /**

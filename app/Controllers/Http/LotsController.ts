@@ -7,11 +7,7 @@ export default class LotsController {
     public async find({ request, params }: HttpContextContract) {
         if (params.id) {
           let theLot: Lot = await Lot.findOrFail(params.id);
-<<<<<<< HEAD
-          //await theLot.load('route',(Route)=>{Route.preload('contract')})
-=======
           await theLot.load('route',(Route)=>{Route.preload('contract')})
->>>>>>> 23e760fb8664216b98775ddfa488d8b82011e619
           await theLot.load('products',(Product)=>{Product.preload('categoryProduct',(CategoryProduct) =>{CategoryProduct.preload('category')})}) 
           await theLot.load('order')
           return theLot;
@@ -29,11 +25,7 @@ export default class LotsController {
       public async create({ request }: HttpContextContract) {
         const body= await request.validate(LotValidator);
         const theLot: Lot = await Lot.create(body);
-<<<<<<< HEAD
-        //await theLot.load('route',(Route)=>{Route.preload('contract')})
-=======
         await theLot.load('route',(Route)=>{Route.preload('contract')})
->>>>>>> 23e760fb8664216b98775ddfa488d8b82011e619
         return theLot;
       }
     
@@ -43,6 +35,7 @@ export default class LotsController {
         theLot.weight = body.weight;  //de lo que está en la base de datos, actualice con lo que viene dentro del body
         theLot.quantity_kg= body.quantity_kg;
         theLot.route_id= body.route_id;
+        theLot.order_id = body.order_id
         return await theLot.save(); //se confirma a la base de datos el cambio
       }
     

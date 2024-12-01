@@ -4,12 +4,11 @@ import Order from 'App/Models/Order';
 import NotificationService from 'App/Services/NotificationServices';
 import OrderValidator from 'App/Validators/OrderValidator';
 
-/*export default class OrdersController {
+export default class OrdersController {
     public async find({ request, params }: HttpContextContract) {
         if (params.id) {
             let theOrder: Order = await Order.findOrFail(params.id)
             await theOrder.load('address', (address)=>{address.preload('municipality')});
-            await theOrder.load('lot',(lot)=>{lot.preload('products')});
             await theOrder.load("route",(route)=>(route.preload('contract')));
             return theOrder; //Visualizar un solo elemento 
         } else {
@@ -17,9 +16,9 @@ import OrderValidator from 'App/Validators/OrderValidator';
             if ("page" in data && "per_page" in data) {
                 const page = request.input('page', 1); // Paginas 
                 const perPage = request.input("per_page", 20); //Lista los primeros 20
-                return await Order.query().paginate(page, perPage)//.preload('contract').preload('vehicle')
+                return await Order.query().paginate(page, perPage)
             } else {
-                return await Order.query().preload('route',(route)=>{route.preload('contract')}).preload('address', (address)=>{address.preload('municipality')}).preload('lot',(lot)=>{lot.preload('products')});
+                return await Order.query().preload('route',(route)=>{route.preload('contract')}).preload('address', (address)=>{address.preload('municipality')});
             } //Devuelve todos los elementos 
         }
     }
@@ -28,7 +27,6 @@ import OrderValidator from 'App/Validators/OrderValidator';
         const body = request.body();
         const theOrder: Order = await Order.create(body);
         await theOrder.load('address');
-
         try {
             // Consulta para obtener los datos necesarios
             const result = await Database
@@ -85,7 +83,6 @@ import OrderValidator from 'App/Validators/OrderValidator';
         theOrder.date_order = body.date_order;
         theOrder.address_id = body.address_id;
         theOrder.route_id = body.route_id;
-        theOrder.lot_id = body.lot_id;
         return await theOrder.save();
     }
 
@@ -96,4 +93,3 @@ import OrderValidator from 'App/Validators/OrderValidator';
     }
 
 }
-*/
