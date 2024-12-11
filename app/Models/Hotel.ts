@@ -9,6 +9,12 @@ export default class Hotel extends BaseModel {
   @column()
   public name: string
 
+  @column()
+  public ubicacion: string
+
+  @column()
+  public telefono: string
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 

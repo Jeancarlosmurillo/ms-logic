@@ -60,6 +60,7 @@ export default class AministratorsController {
   public async update({ params, request, response }: HttpContextContract) {
     const theAdAdministrator: Administrator = await Administrator.findOrFail(params.id);
     const body = request.body();
+    theAdAdministrator.service_id = body.service_id;
     try {
       if (body.name || body.email) {
         //Actualizar el usuario, pero excluyendo la constraseña

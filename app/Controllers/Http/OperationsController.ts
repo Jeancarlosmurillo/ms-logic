@@ -33,6 +33,7 @@ export default class OperationsController {
         const body = request.body();
         theOpeOperation.municipality_id = body.municipality_id;
         theOpeOperation.vehicle_id = body.vehicle_id;
+        theOpeOperation.municipality_name = body.municipality_name;
         return await theOpeOperation.save();
     }
 

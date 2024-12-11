@@ -23,6 +23,10 @@ export default class CategoryProductValidator {
     ]),
     municipality_id: schema.number([
       rules.unsigned()
+    ]),
+
+    municipality_name: schema.string([
+      rules.maxLength(30)
     ])
   })
 
@@ -35,6 +39,7 @@ export default class CategoryProductValidator {
     'door_number.regex': 'El número de puerta debe contener solo números.',
     'door_number.maxLength': 'El número de puerta no puede exceder los 10 caracteres.',
     'municipality_id.required': 'El ID del municipio es obligatorio.',
-    'municipality_id.unsigned': 'El ID del municipio debe ser un número positivo.'
+    'municipality_id.unsigned': 'El ID del municipio debe ser un número positivo.',
+    'municipality_name.required': 'El nombre del municipio es obligatorio.',
   }
 }

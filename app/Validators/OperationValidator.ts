@@ -10,6 +10,9 @@ export default class OperationValidator {
     ]),
     vehicle_id: schema.number([
       rules.unsigned()
+    ]),
+    municipality_name: schema.string([
+      rules.maxLength(30)
     ])
   })
 
@@ -17,6 +20,7 @@ export default class OperationValidator {
     'municipality_id.required': 'El ID del municipio es obligatorio.',
     'municipality_id.unsigned': 'El ID del municipio debe ser un número positivo.',
     'vehicle_id.required': 'El ID del vehículo es obligatorio.',
-    'vehicle_id.unsigned': 'El ID del vehículo debe ser un número positivo.'
+    'vehicle_id.unsigned': 'El ID del vehículo debe ser un número positivo.',
+    'municipality_name.required': 'El nombre del municipio es obligatorio.',
   }
 }

@@ -22,7 +22,8 @@ export default class HotelsController {
     
     }
     public async create({ request }: HttpContextContract) {
-        const body = await request.validate(HotelValidator);
+        //.validate(HotelValidator);
+        const body = request.body();
         const theHotel:Hotel = await Hotel.create(body);
         return theHotel;
     }
@@ -31,6 +32,8 @@ export default class HotelsController {
         const theHotel:Hotel = await Hotel.findOrFail(params.id);
         const body = request.body();
         theHotel.name = body.name;
+        theHotel.ubicacion = body.ubicacion;
+        theHotel.telefono = body.telefono;
         return await theHotel.save();
     }
     

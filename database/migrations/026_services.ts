@@ -8,7 +8,6 @@ export default class extends BaseSchema {
       table.increments('id')
       table.integer('amount')
       table.date('date_service')
-      table.integer('administrator_id').unsigned().references("administrators.id").onDelete("CASCADE")
       table.integer('contract_id').unsigned().references("contracts.id").onDelete("CASCADE")
       table.integer("tranch_id").unsigned().references('tranches.id')
 

@@ -18,10 +18,10 @@ export default class TravelExpenseValidator {
       rules.unsigned()
     ]),
     date_service_restaurant: schema.date({
-      format: 'yyyy-MM-dd HH:mm:ss'
+      format: 'yyyy-MM-dd', // Solo año, mes y día
     }),
     date_service_hotel: schema.date({
-      format: 'yyyy-MM-dd HH:mm:ss'
+      format: 'yyyy-MM-dd', // Solo año, mes y día
     }),
 
     administrator_id: schema.number([

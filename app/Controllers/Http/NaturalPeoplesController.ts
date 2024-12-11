@@ -59,6 +59,12 @@ export default class NaturalPeopleController {
     public async update({ params, request, response }: HttpContextContract) {
         const theNaturalPerson: NaturalPerson = await NaturalPerson.findOrFail(params.id);
         const body = request.body();
+        theNaturalPerson.user_id = body.user_id
+        theNaturalPerson.document_type = body.document_type
+        theNaturalPerson.document_number = body.document_number
+        theNaturalPerson.born_date = body.born_date
+        theNaturalPerson.company_id = body.company_id
+        theNaturalPerson.customer_id = body.customer_id
         try {
             if (body.name || body.email) {
               //Actualizar el usuario, pero excluyendo la constraseña
