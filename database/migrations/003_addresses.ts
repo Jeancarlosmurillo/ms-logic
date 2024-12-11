@@ -9,6 +9,7 @@ export default class extends BaseSchema {
       table.string('street',30).notNullable()
       table.string('neighborhood',30).notNullable()
       table.string('door_number',30).notNullable()
+      table.string('municipality_name',30).notNullable()
       table.integer('municipality_id').unsigned().references('municipalities.id')
 
       table.timestamp('created_at', { useTz: true })

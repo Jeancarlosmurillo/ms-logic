@@ -1,9 +1,9 @@
 import { DateTime } from 'luxon'
-import { BaseModel, BelongsTo, belongsTo, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, BelongsTo, belongsTo, column, HasMany, hasMany, HasOne, hasOne } from '@ioc:Adonis/Lucid/Orm'
 import Contract from './Contract'
-import Administrator from './Administrator'
 import Tranch from './Tranch'
 import Spent from './Spent'
+import Administrator from './Administrator'
 
 export default class Service extends BaseModel {
   @column({ isPrimary: true })
@@ -14,9 +14,6 @@ export default class Service extends BaseModel {
 
   @column()
   public date_service:Date
-
-  @column()
-  public administrator_id:number
 
   @column()
   public contract_id:number
@@ -36,12 +33,6 @@ export default class Service extends BaseModel {
 
   public contract : BelongsTo<typeof Contract>  
 
-  @belongsTo(()=> Administrator, { 
-    foreignKey:"administrator_id" //administrator_id es llave foranea de administrador
-  })
-
-  public administrator : BelongsTo<typeof Administrator>
-
   @belongsTo(()=> Tranch, { 
     foreignKey:"tranch_id" //traches_id es llave foranea de Traches
   })
@@ -54,4 +45,9 @@ export default class Service extends BaseModel {
   })
 
   public spent: HasMany<typeof Spent>
+
+  @hasOne(() => Administrator, {
+    foreignKey: "service_id",
+  })
+  public administrator: HasOne<typeof Administrator>;
 }

@@ -9,7 +9,7 @@ export default class extends BaseSchema {
       table.increments('id')
       table.string('name_company')
       table.integer('phone_company')
-      table.integer('person_id').unsigned().references('natural_people')
+      table.integer('customer_id').unsigned().references('customers')
 
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL

@@ -31,6 +31,11 @@ export default class NaturalPeopleController {
         const theNaturalPerson: NaturalPerson = await NaturalPerson.findOrFail(params.id);
         const body = request.body();
         theNaturalPerson.user_id = body.user_id
+        theNaturalPerson.document_type = body.document_type
+        theNaturalPerson.document_number = body.document_number
+        theNaturalPerson.born_date = body.born_date
+        theNaturalPerson.company_id = body.company_id
+        theNaturalPerson.customer_id = body.customer_id
         return await theNaturalPerson.save();
     }
 

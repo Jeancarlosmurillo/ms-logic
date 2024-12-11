@@ -10,8 +10,8 @@ export default class CompanyValidator {
       rules.maxLength(255), // Máximo 255 caracteres
     ]),
 
-    person_id: schema.number([
-      rules.exists({ table: 'natural_people', column: 'id' }), // Verifica que exista en la tabla de personas
+    customer_id: schema.number([
+      rules.exists({ table: 'customer_people', column: 'id' }), // Verifica que exista en la tabla de personas
       rules.unsigned(), // Debe ser positivo
     ]),
   })
@@ -23,8 +23,8 @@ export default class CompanyValidator {
     'name_company.maxLength': 'El nombre de la empresa no puede exceder los 255 caracteres.',
 
     // Mensajes para person_id
-    'person_id.required': 'El ID de la persona responsable es obligatorio.',
-    'person_id.exists': 'El ID proporcionado no corresponde a ninguna persona registrada.',
-    'person_id.unsigned': 'El ID de la persona debe ser un número positivo.',
+    'customer_id.required': 'El ID del cliente responsable es obligatorio.',
+    'customer_id.exists': 'El ID proporcionado no corresponde a ningl cliente registrada.',
+    'customer_id.unsigned': 'El ID del cliente debe ser un número positivo.',
   }
 }

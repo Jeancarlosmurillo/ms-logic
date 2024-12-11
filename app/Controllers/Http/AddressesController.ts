@@ -36,6 +36,7 @@ export default class AddressesController {
         theAddress.street = body.street;
         theAddress.door_number = body.door_number;
         theAddress.municipality_id = body.municipality_id;
+        theAddress.municipality_name = body.municipality_name;
         return await theAddress.save();
     }
 

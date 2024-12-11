@@ -7,8 +7,7 @@ export default class ServicesController {
     public async find({ request, params }: HttpContextContract) {
         if (params.id) {
             let theService: Service = await Service.findOrFail(params.id)
-            await theService.load("contract");
-            await theService.load("administrator");
+            await theService.load("contract");;
             await theService.load('tranch')
             return theService; //Visualizar un solo elemento 
         } else {
@@ -16,9 +15,9 @@ export default class ServicesController {
             if ("page" in data && "per_page" in data) {
                 const page = request.input('page', 1); // Paginas 
                 const perPage = request.input("per_page", 20); //Lista los primeros 20
-                return await Service.query().preload('contract').preload('administrator').preload('tranch').paginate(page, perPage)
+                return await Service.query().preload('contract').preload('tranch').paginate(page, perPage)
             } else {
-                return await Service.query().preload('contract').preload('administrator').preload('tranch')
+                return await Service.query().preload('contract').preload('tranch')
             } //Devuelve todos los elementos 
 
         }
@@ -29,7 +28,6 @@ export default class ServicesController {
         const body = request.body();
         const theService: Service = await Service.create(body);
         await theService.load("contract")
-        await theService.load("administrator")
         await theService.load('tranch')
         return theService;
     }
@@ -41,7 +39,6 @@ export default class ServicesController {
         theService.amount = body.amount
         theService.date_service = body.date_service
         theService.contract_id = body.contract_id;
-        theService.administrator_id = body.administrator_id
         theService.tranch_id = body.trach_id;
         return await theService.save();
     }

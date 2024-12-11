@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import { BaseModel, BelongsTo, belongsTo, column, HasOne, hasOne } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel,column, HasOne, hasOne } from '@ioc:Adonis/Lucid/Orm'
 import NaturalPerson from './NaturalPerson'
 
 export default class Company extends BaseModel {
@@ -13,7 +13,7 @@ export default class Company extends BaseModel {
   public phone_company:number
 
   @column()
-  public person_id:number
+  public customer_id:number
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
@@ -21,11 +21,11 @@ export default class Company extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
 
-  @belongsTo(() => NaturalPerson,{
-    foreignKey:"person_id"
+  @hasOne(() => NaturalPerson,{
+    foreignKey:"company_id"
   })
 
-  public naturalperson: BelongsTo<typeof NaturalPerson>
+  public naturalperson: HasOne<typeof NaturalPerson>
 
   @hasOne (() => Company,{
     foreignKey:"company_id"

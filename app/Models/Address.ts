@@ -20,6 +20,9 @@ export default class Address extends BaseModel {
   @column()
   public municipality_id: number //FK
 
+  @column()
+  public municipality_name: string
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 

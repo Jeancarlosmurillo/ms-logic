@@ -10,10 +10,7 @@ export default class ServiceValidator {
     date_service: schema.date({ format: 'yyyy-MM-dd' }, [
       rules.beforeOrEqual('today'), // Asegura que la fecha no sea futura
     ]),
-    administrator_id: schema.number([
-      rules.exists({ table: 'administrators', column: 'id' }), // Verifica que el administrador exista
-      rules.unsigned(), // Asegura que el ID sea positivo
-    ]),
+   
     contract_id: schema.number([
       rules.exists({ table: 'contracts', column: 'id' }), // Verifica que el contrato exista
       rules.unsigned(), // Asegura que el ID sea positivo

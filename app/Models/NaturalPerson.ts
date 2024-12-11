@@ -1,13 +1,29 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column, HasOne, hasOne } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, BelongsTo, belongsTo, column } from '@ioc:Adonis/Lucid/Orm'
 import Company from './Company'
+import Customer from './Customer';
 
 export default class NaturalPerson extends BaseModel {
   @column({ isPrimary: true })
-  public id: number
-  
+  public id: number;
+
   @column()
-  public user_id:string
+  public user_id: string;
+
+  @column()
+  public document_type: string;
+
+  @column()
+  public document_number: string;
+
+  @column()
+  public born_date: DateTime;
+
+  @column()
+  public company_id: number | null;
+
+  @column()
+  public customer_id: number;
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
@@ -15,15 +31,14 @@ export default class NaturalPerson extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
 
-  @hasOne(() => Company,{
-    foreignKey:"person_id"
+  @belongsTo(() => Company, {
+    foreignKey: "company_id",
   })
+  public Company: BelongsTo<typeof Company>;
 
-  public company: HasOne<typeof Company>
-
-  @hasOne (() => NaturalPerson,{
-    foreignKey:"person_id"
+  //Relación de 1 a N
+  @belongsTo(() => Customer, {
+    foreignKey: "customer_id",
   })
-
-  public naturalperson: HasOne<typeof NaturalPerson>
+  public customer: BelongsTo<typeof Customer>;
 }

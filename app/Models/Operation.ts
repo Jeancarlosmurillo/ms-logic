@@ -13,6 +13,10 @@ export default class Operation extends BaseModel {
   @column()
   public vehicle_id: number //FK
 
+  
+  @column()
+  public municipality_name: string
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 

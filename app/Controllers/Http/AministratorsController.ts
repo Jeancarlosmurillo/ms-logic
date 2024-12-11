@@ -63,6 +63,7 @@ export default class AministratorsController {
       params.id
     );
     const body = request.body();
+    theAdAdministrator.service_id = body.service_id;
     try {
       if (body.name && body.email) {
         const user = { name: body.name, email: body.email };
