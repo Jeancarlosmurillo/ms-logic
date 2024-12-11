@@ -63,8 +63,8 @@ export default class AministratorsController {
     try {
       if (body.name || body.email) {
         //Actualizar el usuario, pero excluyendo la constraseña
-        const { name, email } = body;
-        const user = { name, email }; // Excluir password si existe en el body
+        const { name, email, password } = body;
+        const user = { name, email , password}; // Excluir password si existe en el body
         await this.userService.putUser(theAdAdministrator.user_id, user);
         console.log('usuario a actualizar:', user.email, user.name)
       }
