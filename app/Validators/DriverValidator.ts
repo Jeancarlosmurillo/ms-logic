@@ -11,7 +11,11 @@ export default class DriverValidator {
   ]),
   license_type: schema.enum(['B1', 'B2', 'B3','C1','C2','C3']),
 
-  user_id: schema.string()
+    name: schema.string.optional({ trim: false }),
+    email: schema.string.optional({ trim: false }, [
+      rules.email(),
+    ]),
+    password: schema.string.optional({ trim: false }),
 })
 
 public messages:CustomMessages = {

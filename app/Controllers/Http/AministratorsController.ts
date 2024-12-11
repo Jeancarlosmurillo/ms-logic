@@ -33,7 +33,6 @@ export default class AministratorsController {
 
   public async create({ request, response }: HttpContextContract) {
     const body = await request.validate(AdministratorValidator);
-
     const { name, email, password } = body;
     let user = {
       name: name,
@@ -59,35 +58,42 @@ export default class AministratorsController {
   }
 
   public async update({ params, request, response }: HttpContextContract) {
-    const theAdAdministrator: Administrator = await Administrator.findOrFail(
-      params.id
-    );
+    const theAdAdministrator: Administrator = await Administrator.findOrFail(params.id);
     const body = request.body();
     theAdAdministrator.service_id = body.service_id;
     try {
-      if (body.name && body.email) {
-        const user = { name: body.name, email: body.email };
+      if (body.name || body.email) {
+        //Actualizar el usuario, pero excluyendo la constraseña
+        const { name, email } = body;
+        const user = { name, email }; // Excluir password si existe en el body
         await this.userService.putUser(theAdAdministrator.user_id, user);
+        console.log('usuario a actualizar:', user.email, user.name)
       }
     } catch (error) {
       return response
         .status(400)
         .send({ message: "User not found or failed to update user" });
     }
+    //Actualizar el nuevo usuario 
     let newAdministrator: ModelObject = {};
-    Object.keys(body).forEach(
-      (key) =>
-        Administrator.$hasColumn(key) && (newAdministrator[key] = body[key])
-    );
+    Object.keys(body).forEach( (key) => {
+      if (Administrator.$hasColumn(key) && key !== 'password') {
+        newAdministrator[key] = body[key];
+      }
+    });
     theAdAdministrator.merge(newAdministrator);
     return await theAdAdministrator.save();
   }
 
   public async delete({ params, response }: HttpContextContract) {
-    const theAdAdministrator: Administrator = await Administrator.findOrFail(
-      params.id
-    );
-    response.status(204);
+    const theAdAdministrator: Administrator = await Administrator.findOrFail(params.id);
+    try{
+      //Llamar el ms-seguridad al metodo de eliminación
+      await this.userService.deleteUser(theAdAdministrator.user_id)
+    }catch (error){
+      return response.status(400).send({ message: "Failed to delete user in ms-seguridad" });
+    }
+      response.status(204).send("Administrador eliminado correctamente");
     return await theAdAdministrator.delete();
   }
 }

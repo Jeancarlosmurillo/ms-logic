@@ -1,17 +1,16 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
 
 export default class extends BaseSchema {
-  protected tableName = 'orders'
+  protected tableName = 'lots'
 
   public async up () {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
-      table.string("type")
-      table.date("date_order")
-      table.integer("address_id").unsigned().references("addresses.id").onDelete("CASCADE")
-      table.integer("route_id").unsigned().references("routes.id").onDelete("CASCADE")
-      table.integer("lot_id").unsigned().references("lots.id").onDelete("CASCADE")
-      table.integer('contract_id').unsigned().references("contracts.id").onDelete("CASCADE")
+      table.integer('weight')
+      table.integer('quantity_kg')
+      table.integer('route_id').unsigned().references("routes.id").onDelete("CASCADE")
+      table.integer('order_id').unsigned().references("orders.id").onDelete("CASCADE")
+      
 
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
