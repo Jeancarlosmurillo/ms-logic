@@ -4,7 +4,7 @@ import Tranch from 'App/Models/Tranch';
 import NotificationService from 'App/Services/NotificationServices';
 //import RouteValidator from 'App/Validators/RouteValidator';
 
-/*export default class RoutesController {
+export default class RoutesController {
     
     public async find({ request, params }: HttpContextContract) {
         if (params.id) {
@@ -30,7 +30,7 @@ import NotificationService from 'App/Services/NotificationServices';
         const body = request.body();
         const theTranch: Tranch = await Tranch.create(body);
 
-        try {
+      /*  try {
             // Consulta para obtener los datos necesarios
             const result = await Database
             .from('tranches')
@@ -70,7 +70,7 @@ import NotificationService from 'App/Services/NotificationServices';
         }catch (error) {
             console.error('Error al procesar la notificación:', error);
             return response.status(500).send({ error: 'Error al enviar la notificación' });
-          }
+          }*/
         await theTranch.load("distribution_centre_origin")
         await theTranch.load("distribution_centre_destination")
         return theTranch;
@@ -94,5 +94,5 @@ import NotificationService from 'App/Services/NotificationServices';
             response.status(204);
             return await theTranch.delete();
     }
-}*/
+}
 

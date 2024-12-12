@@ -13,6 +13,7 @@ export default class AministratorsController {
       let administrator: Administrator = await Administrator.findOrFail(
         params.id
       );
+
       //se debe buscar el usuario al ms-seguridad y retornar el usuario con el administrador
       let user = await this.userService.getUserById(administrator.user_id);
       console.log("user", user.data);
@@ -28,17 +29,23 @@ export default class AministratorsController {
       } else {
         return await Administrator.query();
       }
+      
     }
+    
   }
 
   public async create({ request, response }: HttpContextContract) {
     const body = await request.validate(AdministratorValidator);
+
+   
     const { name, email, password } = body;
     let user = {
       name: name,
       email: email,
       password: password,
     };
+    
+    
     let mensaje = {};
     try {
       let respuesta = await this.userService.postUser(user);
@@ -53,7 +60,7 @@ export default class AministratorsController {
       console.log("error", error);
       return response.status(400).send({ message: "User not found" });
     }
-
+    
     return response.status(201).send(mensaje);
   }
 

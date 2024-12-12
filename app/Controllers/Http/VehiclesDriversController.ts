@@ -2,12 +2,12 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import VehiclesDriver from 'App/Models/VehiclesDriver';
 import VehiclesDriverValidator from 'App/Validators/VehiclesDriverValidator';
 
-/*export default class VehiclesDriversController {
+export default class VehiclesDriversController {
     public async find({ request, params }: HttpContextContract) {
         if (params.id) {
             let theVehiclesDriver: VehiclesDriver = await VehiclesDriver.findOrFail(params.id)
-            await theVehiclesDriver.load('vehicle')
-            await theVehiclesDriver.load('driver', (driver)=>{driver.preload('user')})
+           // await theVehiclesDriver.load('vehicle')
+           // await theVehiclesDriver.load('driver', (driver)=>{driver.preload('user')})
             return theVehiclesDriver; //Visualizar un solo elemento 
         } else {
             const data = request.all()
@@ -16,7 +16,7 @@ import VehiclesDriverValidator from 'App/Validators/VehiclesDriverValidator';
                 const perPage = request.input("per_page", 20); //Lista los primeros 20
                 return await VehiclesDriver.query().paginate(page, perPage)
             } else {
-                return await VehiclesDriver.query().preload('driver',(driver)=>{driver.preload('user')}).preload('vehicle')
+                return await VehiclesDriver.query()
             } //Devuelve todos los elementos 
 
         }
@@ -27,7 +27,7 @@ import VehiclesDriverValidator from 'App/Validators/VehiclesDriverValidator';
         const body = request.body();
         const theVehiclesDriver: VehiclesDriver = await VehiclesDriver.create(body);
         await theVehiclesDriver.load('vehicle')
-        await theVehiclesDriver.load('driver', (driver)=>{driver.preload('user')})
+        //await theVehiclesDriver.load('driver', (driver)=>{driver.preload('user')})
         return theVehiclesDriver;
     }
 
@@ -48,4 +48,3 @@ import VehiclesDriverValidator from 'App/Validators/VehiclesDriverValidator';
     }
 
 }
-*/
