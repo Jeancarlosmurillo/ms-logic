@@ -23,11 +23,11 @@ export default class OrdersController {
         }
     }
     public async create({ request, response }: HttpContextContract) {
-        await request.validate(OrderValidator) //Validador
+        //await request.validate(OrderValidator) //Validador
         const body = request.body();
         const theOrder: Order = await Order.create(body);
-        await theOrder.load('address');
-        try {
+        //await theOrder.load('address');
+       /* try {
             // Consulta para obtener los datos necesarios
             const result = await Database
             .from('orders')
@@ -67,7 +67,7 @@ export default class OrdersController {
             console.error('Error al procesar la notificación:', error);
             return response.status(500).send({ error: 'Error al enviar la notificación' });
           }
-          
+        */
 
         await theOrder.load('address');
         await theOrder.load('lot');
@@ -76,7 +76,7 @@ export default class OrdersController {
     }
 
     public async update({ params, request }: HttpContextContract) {
-        await request.validate(OrderValidator) //Validador
+        //await request.validate(OrderValidator) //Validador
         const theOrder: Order = await Order.findOrFail(params.id);
         const body = request.body();
         theOrder.type = body.type;

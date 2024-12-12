@@ -24,7 +24,7 @@ export default class ServicesController {
 
     }
     public async create({ request }: HttpContextContract) {
-        await request.validate(ServiceValidator) //Validador
+        //await request.validate(ServiceValidator) //Validador
         const body = request.body();
         const theService: Service = await Service.create(body);
         await theService.load("contract")
@@ -33,7 +33,7 @@ export default class ServicesController {
     }
 
     public async update({ params, request }: HttpContextContract) {
-        await request.validate(ServiceValidator) //Validador
+        //await request.validate(ServiceValidator) //Validador
         const theService: Service = await Service.findOrFail(params.id);
         const body = request.body();
         theService.amount = body.amount

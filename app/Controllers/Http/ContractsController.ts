@@ -5,13 +5,12 @@ import Contract from "App/Models/Contract";
 import NotificationService from 'App/Services/NotificationServices';
 import ContractValidator from 'App/Validators/ContractValidator';
 
-/*export default class ContractsController {
+export default class ContractsController {
 
         public async find({ request, params }: HttpContextContract) {
             if (params.id) {
                 let theContract: Contract = await Contract.findOrFail(params.id)
                 await theContract.load("customer", (Customer) => {
-                    Customer.preload('NaturalPerson')
                     Customer.preload('companies', (Company) => Company.preload('naturalperson'))
                   });
                 await theContract.load("order");
@@ -22,11 +21,9 @@ import ContractValidator from 'App/Validators/ContractValidator';
                     const page = request.input('page', 1); // Paginas 
                     const perPage = request.input("per_page", 20); // Lista los primeros 20
                     return await Contract.query().preload('customer', (Customer) => {
-                        Customer.preload('NaturalPerson')
                         Customer.preload('companies', (Company) => Company.preload('naturalperson'))}).paginate(page, perPage)
                 } else {
                     return await Contract.query().preload('customer', (Customer) => {
-                        Customer.preload('NaturalPerson')
                         Customer.preload('companies', (Company) => Company.preload('naturalperson'))})
                 } // Devuelve todos los elementos 
     
@@ -35,11 +32,11 @@ import ContractValidator from 'App/Validators/ContractValidator';
         }
 
         public async create({ request, response }: HttpContextContract) {
-          await request.validate(ContractValidator); // Validador
+          //await request.validate(ContractValidator); // Validador
           const body = request.body();
           const theContract = await Contract.create(body);
         
-          try {
+          /*try {
             // Consulta para obtener los datos necesarios
             const result = await Database
             .from('contracts')
@@ -74,7 +71,7 @@ import ContractValidator from 'App/Validators/ContractValidator';
           } catch (error) {
             console.error('Error al procesar la notificación:', error);
             return response.status(500).send({ error: 'Error al enviar la notificación' });
-          }
+          }*/
         
           // Devolver el contrato creado
           return theContract;
@@ -83,7 +80,7 @@ import ContractValidator from 'App/Validators/ContractValidator';
           
     
         public async update({ params, request }: HttpContextContract) {
-            await request.validate(ContractValidator) //Validador
+            //await request.validate(ContractValidator) //Validador
             const theContract: Contract = await Contract.findOrFail(params.id);
             const body = request.body();
             theContract.description = body.description;
@@ -100,4 +97,3 @@ import ContractValidator from 'App/Validators/ContractValidator';
         }
     
 }
-        */
