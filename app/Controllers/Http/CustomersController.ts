@@ -1,11 +1,86 @@
-import { Exception } from '@adonisjs/core/build/standalone';
-import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import Customer from 'App/Models/Customer';
+// import { Exception } from '@adonisjs/core/build/standalone';
+import type { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
+// import Customer from 'App/Models/Customer';
 // import axios from "axios";
 // import Env from "@ioc:Adonis/Core/Env";
-import CustomerValidator from 'App/Validators/CustomerValidator';
+// import CustomerValidator from 'App/Validators/CustomerValidator';
 
-/*export default class CustomersController {
+import Customer from "App/Models/Customer";
+import CustomerValidator from "App/Validators/CustomerValidator";
+
+export default class CustomersController {
+  public async find({ request, params }: HttpContextContract) {
+    if (params.id) {
+      let theCustomer: Customer = await Customer.findOrFail(params.id);
+      await theCustomer.load("naturalPerson");
+      return theCustomer;
+    } else {
+      const data = request.all();
+      if ("page" in data && "per_page" in data) {
+        const page = request.input("page", 1);
+        const perPage = request.input("per_page", 20);
+        return await Customer.query().paginate(page, perPage);
+      } else {
+        return await Customer.query();
+      }
+    }
+  }
+  public async create({ request }: HttpContextContract) {
+    await request.validate(CustomerValidator);
+    const body = request.body();
+    const theCustomer: Customer = await Customer.create(body);
+    await theCustomer.load("naturalPerson");
+    return theCustomer;
+  }
+
+  public async update({ params, request }: HttpContextContract) {
+    const theCustomer: Customer = await Customer.findOrFail(params.id);
+    const body = request.body();
+    theCustomer.naturalPerson_id = body.naturalPerson_id;
+    theCustomer.phone_number = body.phone_number;
+
+    await theCustomer.load("naturalPerson");
+    await theCustomer.load("contract");
+    return await theCustomer.save();
+  }
+
+  public async delete({ params, response }: HttpContextContract) {
+    const theCustomer: Customer = await Customer.findOrFail(params.id);
+    await theCustomer.delete();
+    return response.status(200).json({
+      message: "Customere eliminado con éxito",
+    });
+  }
+}
+
+/*
+
+  public async find({ request, params }: HttpContextContract) {
+    if (params.id) {
+      let theCustomer: Customer = await Customer.findOrFail(params.id);
+      await theCustomer.load("NaturalPeople");
+      return theCustomer;
+    } else {
+      const data = request.all();
+      if ("page" in data && "per_page" in data) {
+        const page = request.input("page", 1);
+        const perPage = request.input("per_page", 20);
+        return await Customer.query().paginate(page, perPage);
+      } else {
+        return await Customer.query();
+      }
+    }
+  }
+  public async create({ request }: HttpContextContract) {
+    await request.validate(CustomerValidator);
+    const body = request.body();
+    const theCustomer: Customer = await Customer.create(body);
+    await theCustomer.load("NaturalPeople");
+    return theCustomer;
+  }
+
+
+
     public async find({ request, params }: HttpContextContract) {
         try {
             if (params.id) {
@@ -44,7 +119,7 @@ import CustomerValidator from 'App/Validators/CustomerValidator';
 
 public async create({ request, response }: HttpContextContract) {
     //try {
-        // Validar datos usando el ClienteValidator
+        // Validar datos usando el CustomereValidator
         const body = request.body();
         / Llamada al MS_SECURITY para validar al usuario
         const userResponse = await axios.get(

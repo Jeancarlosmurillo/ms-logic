@@ -1,103 +1,95 @@
-import { inject } from '@adonisjs/core/build/standalone';
-import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import { ModelObject } from '@ioc:Adonis/Lucid/Orm';
-import NaturalPerson from 'App/Models/NaturalPerson';
-import UserService from 'App/Services/user_service';
-import NaturalPersonValidator from 'App/Validators/NaturalPersonValidator';
+// import { inject } from '@adonisjs/core/build/standalone';
+import type { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
+// import { ModelObject } from '@ioc:Adonis/Lucid/Orm';
+import NaturalPerson from "App/Models/NaturalPerson";
+// import UserService from 'App/Services/user_service';
+// import NaturalPersonValidator from 'App/Validators/NaturalPersonValidator';
+// import type { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
+// import NaturalPerson from "App/Models/NaturalPerson";
+import NaturalPersonValidator from "App/Validators/NaturalPersonValidator";
+import axios from "axios";
+import Env from "@ioc:Adonis/Core/Env";
+import { Exception } from "@adonisjs/core/build/standalone";
 
-@inject()
 export default class NaturalPeopleController {
-    constructor(protected userService: UserService){}
-    public async find({ request, params, response }: HttpContextContract) {
-        if (params.id) {
-            let theNaturalPerson: NaturalPerson = await NaturalPerson.findOrFail(params.id)
-            //se debe buscar el usuario al ms-seguridad y retornar el usuario con el administrador
-            let user = await this.userService.getUserById(theNaturalPerson.user_id);
-            console.log("user", user.data);
-            console.log("Natural Person", theNaturalPerson.$attributes);
-            let respuesta = { ...theNaturalPerson.$attributes, ...user.data };
-            return response.status(200).send(respuesta);
-        } else {
-            const data = request.all()
-            if ("page" in data && "per_page" in data) {
-                const page = request.input('page', 1);
-                const perPage = request.input("per_page", 20);
-                return await NaturalPerson.query().paginate(page, perPage)
-            } else {
-                return await NaturalPerson.query()
-            }
-        }
-    }
+  public async find({ request, params }: HttpContextContract) {
+    if (params.id) {
+      let theNaturalPerson: NaturalPerson = await NaturalPerson.findOrFail(
+        params.id
+      );
 
-    public async create({ request, response }: HttpContextContract) {
-        await request.validate(NaturalPersonValidator);
-        const body = request.body();
-        const {name, email, password} = body
-        let user = {
-            name: name,
-            email: email,
-            password: password,
-        };
-        let mensaje = {};
-        try {
-      let respuesta = await this.userService.postUser(user);
-      let usuarioCreado = respuesta.data;
-      let naturalPerson: ModelObject = { user_id: usuarioCreado._id };
-      const naturalPersonNew = await naturalPerson.create(naturalPerson);
-      mensaje = {
-        message: "Person created successfully",
-        data: naturalPersonNew,
-      };
-    } catch (error) {
-      console.log("error", error);
-      return response.status(400).send({ message: "User not found" });
-    }
-
-    return response.status(201).send(mensaje);
-    }
-
-    public async update({ params, request, response }: HttpContextContract) {
-        const theNaturalPerson: NaturalPerson = await NaturalPerson.findOrFail(params.id);
-        const body = request.body();
-        theNaturalPerson.user_id = body.user_id
-        theNaturalPerson.document_type = body.document_type
-        theNaturalPerson.document_number = body.document_number
-        theNaturalPerson.born_date = body.born_date
-        theNaturalPerson.company_id = body.company_id
-        theNaturalPerson.customer_id = body.customer_id
-        try {
-            if (body.name || body.email) {
-              //Actualizar el usuario, pero excluyendo la constraseña
-              const { name, email } = body;
-              const user = { name, email }; // Excluir password si existe en el body
-              await this.userService.putUser(theNaturalPerson.user_id, user);
-              console.log('usuario a actualizar:', user.email, user.name)
-            }
-          } catch (error) {
-            return response
-              .status(400)
-              .send({ message: "User not found or failed to update user" });
-          }
-        //Actualizar el nuevo usuario 
-    let newAdministrator: ModelObject = {};
-    Object.keys(body).forEach( (key) => {
-      if (NaturalPerson.$hasColumn(key) && key !== 'password') {
-        newAdministrator[key] = body[key];
+      return theNaturalPerson;
+    } else {
+      const data = request.all();
+      if ("page" in data && "per_page" in data) {
+        const page = request.input("page", 1);
+        const perPage = request.input("per_page", 20);
+        return await NaturalPerson.query().paginate(page, perPage);
+      } else {
+        return await NaturalPerson.query();
       }
-    });
-        return await theNaturalPerson.save();
     }
+  }
 
-    public async delete({ params, response }: HttpContextContract) {
-        const theNaturalPerson: NaturalPerson = await NaturalPerson.findOrFail(params.id);
-        try{
-            //Llamar el ms-seguridad al metodo de eliminación
-            await this.userService.deleteUser(theNaturalPerson.user_id)
-          }catch (error){
-            return response.status(400).send({ message: "Failed to delete user in ms-seguridad" });
-          }
-            response.status(204).send("Usuario eliminado correctamente");
-        response.status(204);
-        return await theNaturalPerson.delete();
+  public async create({ request, response }: HttpContextContract) {
+    try {
+      const body = request.body();
+      // Llamada al microservicio de usuarios
+      const userResponse = await axios.get(
+        `${Env.get("MS_SECURITY")}/Users/${body.user_id}`,
+        {
+          headers: { Authorization: request.headers().authorization || "" },
+        }
+      );
+      // Verificar si no se encontró información del usuario en el microservicio
+      if (!userResponse.data || Object.keys(userResponse.data).length === 0) {
+        await request.validate(NaturalPersonValidator); //*cuando se llame este endpoint antes de mandar valida los datos de acuerdo a los parametros del validador
+
+        return response.notFound({
+          error:
+            "No se encontró información de usuario, verifique que el código sea correcto",
+        });
+      }
+      // Crear la persona natural si la validación y la verificación de usuario son exitosas
+      await request.validate(NaturalPersonValidator);
+      const theNaturalPerson: NaturalPerson = await NaturalPerson.create(body);
+      // await theNaturalPerson.load("Company");
+
+      return theNaturalPerson;
+    } catch (error) {
+      // Si el error es de validación, devolver los mensajes de error de forma legible
+      if (error.messages) {
+        return response.badRequest({ errors: error.messages.errors });
+      }
+      // Para cualquier otro tipo de error, lanzar una excepción genérica
+      throw new Exception(
+        error.message || "Error al procesar la solicitud",
+        error.status || 500
+      );
     }
+  }
+  public async update({ params, request }: HttpContextContract) {
+    const theNaturalPerson: NaturalPerson = await NaturalPerson.findOrFail(
+      params.id
+    );
+    const body = request.body();
+    theNaturalPerson.user_id = body.user_id;
+    theNaturalPerson.document_type = body.document_type;
+    theNaturalPerson.document_number = body.document_number;
+    theNaturalPerson.born_date = body.born_date;
+    theNaturalPerson.company_id = body.company_id;
+    theNaturalPerson.customer_id = body.customer_id;
+    // await theNaturalPerson.load("Company");
+    return await theNaturalPerson.save();
+  }
+
+  public async delete({ params, response }: HttpContextContract) {
+    const theNaturalPerson: NaturalPerson = await NaturalPerson.findOrFail(
+      params.id
+    );
+    await theNaturalPerson.delete();
+    return response.status(200).json({
+      message: "Persona natural eliminada con éxito",
+    });
+  }
 }

@@ -12,7 +12,7 @@ import "./routes/distribution_centres";
 import "./routes/category"; //registro de la ruta de categorias
 import "./routes/product"; //registro de la ruta de productos
 import "./routes/categoryProducts"; //registro de la ruta de categoria de los productos
-import "./routes/payment"; //registro de la ruta de los pagos
+import "./routes/quota"; //registro de la ruta de los pagos
 import "./routes/bill"; //registro de la ruta de las facturas
 import "./routes/customer"; //registro de la ruta de los clientes
 import "./routes/company";
