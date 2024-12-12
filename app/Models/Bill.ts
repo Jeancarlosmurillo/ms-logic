@@ -1,42 +1,43 @@
-import { DateTime } from 'luxon'
-import { BaseModel, BelongsTo, belongsTo, column } from '@ioc:Adonis/Lucid/Orm'
-import Payment from './Payment'
-import Spent from './Spent'
+import { DateTime } from "luxon";
+import { BaseModel, BelongsTo, belongsTo, column } from "@ioc:Adonis/Lucid/Orm";
+import Quota from "./Quota";
+import Spent from "./Spent";
 
 export default class Bill extends BaseModel {
   @column({ isPrimary: true })
-  public id: number
+  public id: number;
 
   @column()
-  public date_bill: DateTime
+  public date_bill: DateTime;
 
   @column()
-  public total_amount: number
+  public total_amount: number;
 
   @column()
-  public state: string
+  public state: string;
 
   @column()
-  public quotas: number
-  
+  public quotas: number;
+
+  @column()
+  public payment_id: number | null;
+  @column()
+  public spent_id: number | null;
+
   @column.dateTime({ autoCreate: true })
-  public createdAt: DateTime
+  public createdAt: DateTime;
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
-  public updatedAt: DateTime
-  
-  @belongsTo(() => Payment, {
-    foreignKey: "payment_id",
+  public updatedAt: DateTime;
+
+  @belongsTo(() => Quota, {
+    foreignKey: "quota_id",
   })
-  public payment: BelongsTo<typeof Payment>;
+  public quota: BelongsTo<typeof Quota>;
 
   @belongsTo(() => Spent, {
     //nombre de la clave foranea que permite la relacion bidireccional 1:1  en este caso viene de quota
     foreignKey: "spent_id",
   })
-  public spent: BelongsTo<typeof Spent>
-  
+  public spent: BelongsTo<typeof Spent>;
 }
-
-
-

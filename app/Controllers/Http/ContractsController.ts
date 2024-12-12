@@ -1,9 +1,6 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import Database from '@ioc:Adonis/Lucid/Database';
-
 import Contract from "App/Models/Contract";
-import NotificationService from 'App/Services/NotificationServices';
-import ContractValidator from 'App/Validators/ContractValidator';
+
 
 export default class ContractsController {
 
@@ -27,7 +24,7 @@ export default class ContractsController {
                         Customer.preload('companies', (Company) => Company.preload('naturalperson'))})
                 } // Devuelve todos los elementos 
     
-            }
+        }
     
         }
 
@@ -90,10 +87,9 @@ export default class ContractsController {
             return await theContract.save();
         }
     
-        public async delete({ params, response }: HttpContextContract) {
-            const theContract: Contract = await Contract.findOrFail(params.id);
-                response.status(204);
-                return await theContract.delete();
-        }
-    
+    public async delete({ params, response }: HttpContextContract) {
+        const theContract:Contract = await Contract.findOrFail(params.id);
+            response.status(204);
+            return await theContract.delete();
+    }
 }

@@ -1,6 +1,6 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Hotel from 'App/Models/Hotel';
-import HotelValidator from 'App/Validators/HotelValidator';
+
 
 export default class HotelsController {
     public async find({ request, params }: HttpContextContract) {

@@ -28,6 +28,7 @@ export default class OwnersController {
             } //Devuelve todos los elementos 
 
         }
+        
 
     }
     public async create({ request, response }: HttpContextContract) {

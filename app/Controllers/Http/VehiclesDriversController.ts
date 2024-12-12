@@ -6,8 +6,8 @@ export default class VehiclesDriversController {
     public async find({ request, params }: HttpContextContract) {
         if (params.id) {
             let theVehiclesDriver: VehiclesDriver = await VehiclesDriver.findOrFail(params.id)
-            await theVehiclesDriver.load('vehicle')
-            await theVehiclesDriver.load('driver')
+           // await theVehiclesDriver.load('vehicle')
+           // await theVehiclesDriver.load('driver', (driver)=>{driver.preload('user')})
             return theVehiclesDriver; //Visualizar un solo elemento 
         } else {
             const data = request.all()
@@ -16,7 +16,7 @@ export default class VehiclesDriversController {
                 const perPage = request.input("per_page", 20); //Lista los primeros 20
                 return await VehiclesDriver.query().paginate(page, perPage)
             } else {
-                return await VehiclesDriver.query().preload('driver').preload('vehicle')
+                return await VehiclesDriver.query()
             } //Devuelve todos los elementos 
 
         }
@@ -27,7 +27,7 @@ export default class VehiclesDriversController {
         const body = request.body();
         const theVehiclesDriver: VehiclesDriver = await VehiclesDriver.create(body);
         await theVehiclesDriver.load('vehicle')
-        await theVehiclesDriver.load('driver')
+        //await theVehiclesDriver.load('driver', (driver)=>{driver.preload('user')})
         return theVehiclesDriver;
     }
 
@@ -48,3 +48,4 @@ export default class VehiclesDriversController {
     }
 
 }
+
