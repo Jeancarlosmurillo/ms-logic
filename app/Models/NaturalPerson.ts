@@ -1,7 +1,7 @@
-import { DateTime } from 'luxon'
-import { BaseModel, BelongsTo, belongsTo, column } from '@ioc:Adonis/Lucid/Orm'
-import Company from './Company'
-import Customer from './Customer';
+import { DateTime } from "luxon";
+import { BaseModel, BelongsTo, belongsTo, column } from "@ioc:Adonis/Lucid/Orm";
+import Company from "./Company";
+import Customer from "./Customer";
 
 export default class NaturalPerson extends BaseModel {
   @column({ isPrimary: true })
@@ -26,10 +26,10 @@ export default class NaturalPerson extends BaseModel {
   public customer_id: number;
 
   @column.dateTime({ autoCreate: true })
-  public createdAt: DateTime
+  public createdAt: DateTime;
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
-  public updatedAt: DateTime
+  public updatedAt: DateTime;
 
   @belongsTo(() => Company, {
     foreignKey: "company_id",

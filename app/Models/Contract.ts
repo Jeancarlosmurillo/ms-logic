@@ -1,57 +1,59 @@
-import { DateTime } from 'luxon'
-import { BaseModel, BelongsTo, belongsTo, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
-import Route from './Route'
-import Payment from './Payment'
-import Customer from './Customer'
-import Order from './Order'
+import { DateTime } from "luxon";
+import {
+  BaseModel,
+  BelongsTo,
+  belongsTo,
+  column,
+  HasMany,
+  hasMany,
+} from "@ioc:Adonis/Lucid/Orm";
+import Route from "./Route";
+import Payment from "./Quota";
+import Customer from "./Customer";
+import Order from "./Order";
 
 export default class Contract extends BaseModel {
   @column({ isPrimary: true })
-  public id: number
+  public id: number;
 
   @column()
-  public description: string
+  public description: string;
 
   @column()
-  public date:DateTime
+  public date: DateTime;
 
   @column()
-  public customer_id: number
+  public customer_id: number;
 
-  /*@column()
-  public order_id: number*/
+  @column()
+  public order_id: number;
 
   @column.dateTime({ autoCreate: true })
-  public createdAt: DateTime
+  public createdAt: DateTime;
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
-  public updatedAt: DateTime
+  public updatedAt: DateTime;
 
-  @hasMany (()=> Route,{
+  @hasMany(() => Route, {
     // nombre de la clave foranea
-    foreignKey:'contract_id'
+    foreignKey: "contract_id",
   })
+  public route: HasMany<typeof Route>;
 
-  public route: HasMany<typeof Route>
-
-  @hasMany (()=> Payment,{
+  @hasMany(() => Payment, {
     // nombre de la clave foranea
-    foreignKey:'contract_id'
+    foreignKey: "contract_id",
   })
+  public payment: HasMany<typeof Payment>;
 
-  public payment: HasMany<typeof Payment>
-
-  @belongsTo(()=> Customer, { 
-    foreignKey:"customer_id" //customer_id es llave foranea de Contract
+  @belongsTo(() => Customer, {
+    foreignKey: "customer_id", //customer_id es llave foranea de Contract
   })
-
-  public customer : BelongsTo<typeof Customer>
+  public customer: BelongsTo<typeof Customer>;
 
   //Relacion de 1 a N
-  @hasMany(()=> Order, { 
-    foreignKey:"contract_id" //id es llave foranea de Contract
+  @hasMany(() => Order, {
+    foreignKey: "contract_id", //id es llave foranea de Contract
   })
-
-  public order : HasMany<typeof Order>
-
+  public order: HasMany<typeof Order>;
 }
