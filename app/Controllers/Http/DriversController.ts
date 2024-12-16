@@ -62,7 +62,6 @@ export default class DriversController {
         const body = request.body();
         theDriver.license = body.license;
         theDriver.license_type = body.license_type;
-        theDriver.user_id = body.user_id;
         return await theDriver.save();
     }
 
