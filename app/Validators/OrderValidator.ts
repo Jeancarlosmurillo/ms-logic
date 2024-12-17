@@ -17,10 +17,6 @@ export default class OrderValidator {
       rules.exists({ table: 'routes', column: 'id' }), // Verifica que la ruta exista
       rules.unsigned(), // Asegura que el ID sea positivo
     ]),
-    lot_id: schema.number([
-      rules.exists({ table: 'lots', column: 'id' }), // Verifica que el lote exista
-      rules.unsigned(), // Asegura que el ID sea positivo
-    ]),
     contract_id: schema.number([
       rules.exists({ table: 'contracts', column: 'id' }), // Verifica que el contrato exista
       rules.unsigned(), // Asegura que el ID sea positivo

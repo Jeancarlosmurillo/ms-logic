@@ -10,7 +10,7 @@ export default class ContractValidator {
       rules.maxLength(400), // Maximo de caracteres para descripcion
     ]),
     date: schema.date({ 
-      format: 'yyyy-MM-dd HH:mm:ss'
+      format: 'dd-MM-yyyy HH:mm:ss'
   }),
     customer_id: schema.number([
       rules.exists({ table: 'customers', column: 'id' }),

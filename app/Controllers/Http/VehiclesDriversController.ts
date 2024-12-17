@@ -6,8 +6,8 @@ export default class VehiclesDriversController {
     public async find({ request, params }: HttpContextContract) {
         if (params.id) {
             let theVehiclesDriver: VehiclesDriver = await VehiclesDriver.findOrFail(params.id)
-           // await theVehiclesDriver.load('vehicle')
-           // await theVehiclesDriver.load('driver', (driver)=>{driver.preload('user')})
+           await theVehiclesDriver.load('vehicle')
+        await theVehiclesDriver.load('driver')
             return theVehiclesDriver; //Visualizar un solo elemento 
         } else {
             const data = request.all()
@@ -23,7 +23,7 @@ export default class VehiclesDriversController {
 
     }
     public async create({ request }: HttpContextContract) {
-        //await request.validate(VehiclesDriverValidator) //Validador
+        await request.validate(VehiclesDriverValidator) //Validador
         const body = request.body();
         const theVehiclesDriver: VehiclesDriver = await VehiclesDriver.create(body);
         await theVehiclesDriver.load('vehicle')
@@ -32,7 +32,7 @@ export default class VehiclesDriversController {
     }
 
     public async update({ params, request }: HttpContextContract) {
-        //await request.validate(VehiclesDriverValidator) //Validador
+        await request.validate(VehiclesDriverValidator) //Validador
         const theVehiclesDriver: VehiclesDriver = await VehiclesDriver.findOrFail(params.id);
         const body = request.body();
         theVehiclesDriver.assignment_date = body.assignment_date;
