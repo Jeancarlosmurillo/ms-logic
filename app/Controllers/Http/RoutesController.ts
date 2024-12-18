@@ -22,14 +22,14 @@ export default class RoutesController {
     
     }
     public async create({ request }: HttpContextContract) {
-        //await request.validate(RouteValidator) //Validador
+        await request.validate(RouteValidator) //Validador
         const body = request.body();
         const theRouRoute:Route = await Route.create(body);
         return theRouRoute;
     }
     
     public async update({ params, request }: HttpContextContract) {
-        //await request.validate(RouteValidator) //Validador
+        await request.validate(RouteValidator) //Validador
         const theRoute: Route = await Route.findOrFail(params.id);
         const body = request.body();
         theRoute.vehicle_id = body.vehicle_id;
