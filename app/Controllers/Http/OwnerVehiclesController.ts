@@ -23,7 +23,7 @@ export default class OwnerVehiclesController {
 
     }
     public async create({ request }: HttpContextContract) {
-        //await request.validate(OwnerVehicleValidator) //Validador
+        await request.validate(OwnerVehicleValidator) //Validador
         const body = request.body();
         const theOwnerVehicle: OwnerVehicle = await OwnerVehicle.create(body);
         await theOwnerVehicle.load("owner")
@@ -32,7 +32,7 @@ export default class OwnerVehiclesController {
     }
 
     public async update({ params, request }: HttpContextContract) {
-        //await request.validate(OwnerVehicleValidator) //Validador
+        await request.validate(OwnerVehicleValidator) //Validador
         const theOwnerVehicle: OwnerVehicle = await OwnerVehicle.findOrFail(params.id);
         const body = request.body();
         theOwnerVehicle.owner_id = body.owner_id;

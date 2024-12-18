@@ -26,7 +26,7 @@ export default class RoutesController {
 
     }
     public async create({ request, response }: HttpContextContract) {
-       // await request.validate(TranchValidator) //Validador
+        //await request.validate(TranchValidator) //Validador
         const body = request.body();
         const theTranch: Tranch = await Tranch.create(body);
 

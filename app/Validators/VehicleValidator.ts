@@ -12,7 +12,7 @@ export default class VehicleValidator {
     capacitity_kg: schema.number([
       rules.unsigned(), // Asegura que la capacidad sea un número positivo
     ]),
-    state: schema.enum(['active', 'inactive', 'maintenance']), // Estados válidos
+    state: schema.enum(['Activo', 'Inactivo', 'Mantenimiento']), // Estados válidos
 
 
   })
@@ -25,6 +25,6 @@ export default class VehicleValidator {
     'capacitity_kg.number': 'La capacidad debe ser un número',
     'capacitity_kg.unsigned': 'La capacidad debe ser un número positivo',
     'state.required': 'El estado del vehículo es obligatorio',
-    'state.enum': 'El estado debe ser uno de los siguientes: active, inactive, maintenance',
+    'state.enum': 'El estado debe ser uno de los siguientes: Activo, Inactivo, Mantenimiento',
   }
 }
