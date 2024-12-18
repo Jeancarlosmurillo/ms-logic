@@ -37,3 +37,5 @@ import "./routes/ownerVehicle";
 import "./routes/services";
 import "./routes/tranches";
 import "./routes/lot";
+import './routes/chat';
+import './routes/message';
